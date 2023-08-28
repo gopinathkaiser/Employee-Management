@@ -1,0 +1,37 @@
+body{
+    background-color: #3C4AED;
+    margin: 10px;
+    padding: 10px;
+
+}
+
+.header{
+    margin: 1em 3em;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.header-button a{
+    background-color: whitesmoke;
+    color: #3C4AED;
+    padding: 8px 16px;
+    display: inline-block;
+    font-size: 18px;
+    border-radius: 5%;
+    text-decoration: none;
+    text-align: center;
+}
+
+.table-main{
+    display: flex;
+    justify-content: center;
+    margin: 3em 3em;
+}
+
+.table-main table th{
+    margin: 0px 60px 0px 50px;
+}
+
+
+
