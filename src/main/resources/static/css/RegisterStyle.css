@@ -1,0 +1,70 @@
+body{
+    background-color: #3C4AED;
+    margin: 10px;
+    padding: 10px;
+
+}
+
+.header{
+    margin: 1em 3em;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.back-button{
+    background-color: whitesmoke;
+    color: #3C4AED;
+    padding: 6px 10px;
+    display: inline-block;
+    font-size: 18px;
+    border-radius: 5%;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+}
+
+.form-table{
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-spacing: 2rem;
+}
+
+/*.form-main{*/
+/*    margin: 1em 3em;*/
+/*}*/
+
+.register-header{
+    color : white;
+    text-align: center;
+}
+
+
+.submit-button, .clear-button{
+    border: none;
+    background-color: whitesmoke;
+    color: #3C4AED;
+    padding: 0.4rem .6rem;
+    display: inline-block;
+    font-size: 0.8rem;
+    border-radius: 5%;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+td {
+    color : white;
+    font-family: monospace;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+input{
+    height: 25px;
+    border-color: white;
+}
+
+

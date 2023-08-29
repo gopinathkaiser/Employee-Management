@@ -12,7 +12,7 @@ body{
 }
 
 
-.header-button a{
+.add-button{
     background-color: whitesmoke;
     color: #3C4AED;
     padding: 8px 16px;
@@ -21,16 +21,19 @@ body{
     border-radius: 5%;
     text-decoration: none;
     text-align: center;
+    border: none;
 }
 
-.table-main{
+.table-section{
     display: flex;
     justify-content: center;
     margin: 3em 3em;
 }
 
-.table-main table th{
-    margin: 0px 60px 0px 50px;
+.table-section table {
+    color : lightyellow;
+    border-spacing: 2rem;
+    border: 1px solid white;
 }
 
 

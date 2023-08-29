@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../static/css/RegisterStyle.css" />
+    <title>Register</title>
+</head>
+<body>
+    <div>
+        <section>
+            <header class="header">
+                <div class="header-logo">
+                    <img src="../static/Images/Divum_Logo.svg" alt="logo" width="80">
+                </div>
+                <div class="header-button">
+                    <form action="/" method="get">
+                        <button type="submit" class="back-button">Back</button>
+                    </form>
+                </div>
+            </header>
+        </section>
+
+        <section class="form-main">
+            <form onsubmit="return checkAllValidation()" >
+                <table class="form-table">
+                    <tr>
+                        <h1 class="register-header">REGISTER</h1>
+                    </tr>
+                <tr>
+                    <td>
+                        <label for="email">Email</label>
+                    </td>
+                    <td>
+                        <input type="email" id="email" name="email" autocomplete="off" onchange="validateEmail()" required/>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label for="fname">First Name</label>
+
+                    </td>
+                    <td>
+                        <input type="text" id="fname" name="fname" autocomplete="off" onchange="return validateFirstName()" required/>
+
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label for="lname">Last Name</label>
+
+                    </td>
+                    <td>
+                        <input type="text" id="lname" name="lname" autocomplete="off" onchange="validateLastName()" required/>
+
+                    </td>
+                </tr>
+                    <tr>
+                        <td>
+                            <label for="mobile">Mobile Number</label>
+
+                        </td>
+                        <td>
+                            <input type="text" id="mobile" name="mobile" autocomplete="off" onchange="validateMobileNum()" pattern="[7-9]{1}[0-9]{9}" maxlength="10" required/>
+
+                        </td>
+                    </tr>
+                <tr>
+                    <td>
+                        <label for="dob">Date of Birth</label>
+
+                    </td>
+                    <td>
+                        <input type="date" id="dob" name="dob" autocomplete="off" onchange="validateDob()"  max="" required/>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="address">Address</label>
+
+                    </td>
+                    <td>
+                        <textarea  id="address" name="address" maxlength="50" rows="4" autocomplete="off" required></textarea>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                    </td>
+                    <td>
+                        <input type="submit" value="submit" class="submit-button">
+                        <input type="reset" value="clear" class="clear-button">
+
+                    </td>
+                </tr>
+
+
+            </table>
+            </form>
+        </section>
+    </div>
+
+<script src="../static/javascript/script.js" ></script>
+</body>
+</html>
