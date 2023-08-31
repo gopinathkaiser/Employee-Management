@@ -1,4 +1,4 @@
-package com.example.fullstackapplication;
+package com.example.UserManagement.Model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

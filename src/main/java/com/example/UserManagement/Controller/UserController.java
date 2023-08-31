@@ -1,10 +1,10 @@
-package com.example.fullstackapplication;
+package com.example.UserManagement.Controller;
 
+import com.example.UserManagement.Repository.UserRepository;
+import com.example.UserManagement.Model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 //import com.example.fullstackapplication.WebConfig;
 
 import java.sql.Timestamp;
@@ -25,19 +25,19 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("/")
-    public ModelAndView home(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("index");
-        return modelAndView;
-    }
+//    @GetMapping("/")
+//    public ModelAndView home(){
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("index");
+//        return modelAndView;
+//    }
 
-    @GetMapping("/register")
-    public ModelAndView register(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("Register");
-        return modelAndView;
-    }
+//    @GetMapping("/register")
+//    public ModelAndView register(){
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("Register");
+//        return modelAndView;
+//    }
 
     @GetMapping("/Edit")
     public ModelAndView Edit(){
@@ -47,12 +47,7 @@ public class UserController {
     }
 
 
-//    @GetMapping("/register")
-//    public String register(){
-//        return "Register";
-//    }
-
-
+    @CrossOrigin
     @PostMapping("/insert")
     public Users insertData(@RequestBody Users user){
 //        System.out.println(new Timestamp(new Date().getTime()));
@@ -69,6 +64,7 @@ public class UserController {
         return (List<Users>) userRepository.findAllByModifiedDate();
     }
 
+    @CrossOrigin
     @DeleteMapping("/delete/{email}")
     public String delete(@PathVariable String email){
         if(userRepository.existsById(email)){
@@ -78,6 +74,7 @@ public class UserController {
         return "success";
     }
 
+    @CrossOrigin
     @PutMapping("/updateData/{email}")
     public Optional<Users> updateData(@PathVariable String email){
         if(userRepository.existsById(email)){
@@ -87,12 +84,14 @@ public class UserController {
         return null;
     }
 
+    @CrossOrigin
     @GetMapping("/editDataFetch/{email}")
     public Optional<Users> displayDataFetch(@PathVariable String email){
         System.out.println(userRepository.findAll());
         return userRepository.findById(email);
     }
 
+    @CrossOrigin
     @PostMapping("/insertEditedData")
     public Users insertAfterEditData(@RequestBody Users user){
         Optional<Users> users = userRepository.findById(user.getEmail());
@@ -112,6 +111,7 @@ public class UserController {
         return user;
     }
 
+    @CrossOrigin
     @GetMapping("/checkEmail/{email}")
     public boolean checkEmail(@PathVariable String email){
         if(userRepository.existsById(email)){
