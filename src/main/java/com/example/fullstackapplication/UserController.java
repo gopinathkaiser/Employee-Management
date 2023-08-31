@@ -3,9 +3,16 @@ package com.example.fullstackapplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+//import com.example.fullstackapplication.WebConfig;
 
 import java.sql.Timestamp;
 import java.util.*;
+
+
+
+
 
 @RestController
 public class UserController {
@@ -55,7 +62,7 @@ public class UserController {
         return userRepository.save(user);
 
     }
-
+    @CrossOrigin
     @GetMapping("/displayData")
     public List<Users> display(){
         System.out.println(userRepository.findAllByModifiedDate());
