@@ -32,6 +32,13 @@ public class UserController {
         return modelAndView;
     }
 
+    @GetMapping("/Edit")
+    public ModelAndView Edit(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("Register");
+        return modelAndView;
+    }
+
 
 //    @GetMapping("/register")
 //    public String register(){
@@ -47,19 +54,18 @@ public class UserController {
         user.setCreateDate(ts);
         return userRepository.save(user);
 
-//        return "vr";
     }
 
     @GetMapping("/displayData")
     public List<Users> display(){
-        System.out.println(userRepository.findAll());
-        return (List<Users>) userRepository.findAll();
+        System.out.println(userRepository.findAllByModifiedDate());
+        return (List<Users>) userRepository.findAllByModifiedDate();
     }
 
     @DeleteMapping("/delete/{email}")
     public String delete(@PathVariable String email){
         if(userRepository.existsById(email)){
-            userRepository.deleteAllById(Collections.singleton(email));
+            userRepository.deleteById(email);
             return "failed";
         }
         return "success";
@@ -73,5 +79,38 @@ public class UserController {
 
         return null;
     }
-    
+
+    @GetMapping("/editDataFetch/{email}")
+    public Optional<Users> displayDataFetch(@PathVariable String email){
+        System.out.println(userRepository.findAll());
+        return userRepository.findById(email);
+    }
+
+    @PostMapping("/insertEditedData")
+    public Users insertAfterEditData(@RequestBody Users user){
+        Optional<Users> users = userRepository.findById(user.getEmail());
+        Timestamp ts = new Timestamp(new Date().getTime());
+
+        Users userData = users.get();
+
+        userData.setFname(user.getFname());
+        userData.setLname(user.getLname());
+        userData.setMobile(user.getMobile());
+        userData.setDob(user.getDob());
+        userData.setAddress(user.getAddress());
+        userData.setModifyDate(ts);
+        userRepository.save(userData);
+//        System.out.println("USer from db" + users );
+
+        return user;
+    }
+
+    @GetMapping("/checkEmail/{email}")
+    public boolean checkEmail(@PathVariable String email){
+        if(userRepository.existsById(email)){
+            return true;
+        }
+
+        return false;
+    }
 }
