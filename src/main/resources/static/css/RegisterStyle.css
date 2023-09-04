@@ -1,3 +1,4 @@
+
 body{
     background-color: #4f3b78;
     margin: 10px;
@@ -29,19 +30,20 @@ a{
 }
 
 .form-table{
-    height: 70vh;
+    
+    height: 70%;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-spacing: 2rem;
+    border-spacing: 0.5rem;
 }
-
-/*.form-main{*/
-/*    margin: 1em 3em;*/
-/*}*/
 
 .register-header{
     color : white;
+    
+}
+
+.register-header{
     text-align: center;
 }
 
@@ -64,6 +66,7 @@ td {
     font-family: monospace;
     font-weight: 600;
     font-size: 1rem;
+    padding-left: 50px;
 }
 
 input{
@@ -71,4 +74,12 @@ input{
     border-color: white;
 }
 
+span{
+    font-size: x-small;
+    color: #e82a2a;
+}
 
+#warn-email, #warn-fname, #warn-lname, #warn-mobile,#warn-dob,#warn-address{
+    
+    visibility: hidden;
+}

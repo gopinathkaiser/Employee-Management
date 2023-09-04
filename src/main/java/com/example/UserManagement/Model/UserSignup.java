@@ -2,12 +2,9 @@ package com.example.UserManagement.Model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name="loginDetails")
-
-public class UserLogin {
+public class UserSignup {
 
     public String getEmail() {
         return email;
@@ -17,8 +14,25 @@ public class UserLogin {
         this.email = email;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String toString() {
+        return "UserSignup{" +
+                "email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 
     public void setPassword(String password) {
@@ -28,6 +42,7 @@ public class UserLogin {
     @Id
     private String email;
 
+    private String name;
+
     private String password;
 }
-

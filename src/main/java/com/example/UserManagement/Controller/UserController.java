@@ -4,14 +4,9 @@ import com.example.UserManagement.Repository.UserRepository;
 import com.example.UserManagement.Model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-//import com.example.fullstackapplication.WebConfig;
 
 import java.sql.Timestamp;
 import java.util.*;
-
-
-
 
 @CrossOrigin
 @RestController
@@ -20,36 +15,9 @@ public class UserController {
     @Autowired
     private  UserRepository userRepository;
 
-//    public UserController(UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
-
-//    @GetMapping("/")
-//    public ModelAndView home(){
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("index");
-//        return modelAndView;
-//    }
-
-//    @GetMapping("/register")
-//    public ModelAndView register(){
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("Register");
-//        return modelAndView;
-//    }
-
-//    @GetMapping("/Edit")
-//    public ModelAndView Edit(){
-//        ModelAndView modelAndView = new ModelAndView();
-//        modelAndView.setViewName("Register");
-//        return modelAndView;
-//    }
-
-
 
     @PostMapping
     public Users insertData(@RequestBody Users user){
-//        System.out.println(new Timestamp(new Date().getTime()));
         Timestamp ts = new Timestamp(new Date().getTime());
         user.setModifyDate(ts);
         user.setCreateDate(ts);
@@ -58,7 +26,6 @@ public class UserController {
     }
     @GetMapping
     public List<Users> display(){
-        System.out.println(userRepository.findAllByModifiedDate());
         return (List<Users>) userRepository.findAllByModifiedDate();
     }
 
@@ -71,19 +38,8 @@ public class UserController {
         return "success";
     }
 
-//    @CrossOrigin
-//    @PutMapping("/updateData/{email}")
-//    public Optional<Users> updateData(@PathVariable String email){
-//        if(userRepository.existsById(email)){
-//            return  userRepository.findById(email);
-//        }
-//
-//        return null;
-//    }
-
     @GetMapping("/{email}")
     public Optional<Users> displayDataFetch(@PathVariable String email){
-        System.out.println(userRepository.findAll());
         return userRepository.findById(email);
     }
 
@@ -101,7 +57,6 @@ public class UserController {
         userData.setAddress(user.getAddress());
         userData.setModifyDate(ts);
         userRepository.save(userData);
-//        System.out.println("USer from db" + users );
 
         return user;
     }

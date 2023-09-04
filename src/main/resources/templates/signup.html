@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/signup.css">
+    <title>Signup</title>
+</head>
+<body>  
+    <div class="body">
+        <table>
+            <form onsubmit="updateSignup()">
+
+                <tr>
+                    <td>Email </td>
+                    <td>
+                        <input type="email" id="signup-email" onchange="checkEmailExists()">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Name</td>
+                    <td>
+                        <input type="text" id="signup-name">
+                    </td>
+                </tr>
+                <tr>
+                    <td>password</td>
+                    <td>
+                        <input type="password" id="signup-password"> 
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit">
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href="../templates/login.html">Back to login</a>
+                    </td>
+                </tr>
+            </form>
+        </table>
+    </div>
+    
+    <script src="../static/javascript/signup.js"></script>
+</body>
+</html>

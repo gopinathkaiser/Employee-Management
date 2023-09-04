@@ -1,17 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/login.css">
     <title>Login</title>
 </head>
+
 <body>
     <div class="body">
-        <form onsubmit="checkLoginDetails()">
-            email : <input type="email" id="login-email"><br>
-            password : <input type="password" id="password"><br>
-            <button><input type="submit"></button>
-        </form>
+        <table>
+            <form onsubmit="checkLoginDetails()">
+                <tr>
+                    <td>Email  </td>
+                    <td><input type="email" id="login-email" onchange="checkEmailExists()"></td>
+                </tr>
+
+                <tr>
+                    <td> Password  </td>
+                    <td><input type="password" id="password"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+
+                    <input type="submit">
+
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href=".">Sign up here</a>
+                    </td>
+                </tr>
+            </form>
+        </table>
     </div>
+
+
+    <script src="../static/javascript/login.js"></script>
 </body>
+
 </html>

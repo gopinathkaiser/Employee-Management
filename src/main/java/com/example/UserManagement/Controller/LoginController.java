@@ -5,10 +5,7 @@ import com.example.UserManagement.Model.Users;
 import com.example.UserManagement.Repository.UserLoginRepo;
 import com.example.UserManagement.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,7 +15,7 @@ public class LoginController {
     @Autowired
     private UserLoginRepo userLoginRepo;
 
-
+    @CrossOrigin
     @GetMapping("/checkLogin")
     public List<UserLogin> checkData(){
         System.out.println(userLoginRepo.findAll());
@@ -30,5 +27,12 @@ public class LoginController {
 //        System.out.println(userLoginRepo.findAll());
         return userLoginRepo.save(users);
     }
+
+//    @DeleteMapping("/{email}")
+//    public String delete(@PathVariable String email){
+//        userLoginRepo.deleteById(email);
+//        return "deleted";
+//    }
+
 
 }

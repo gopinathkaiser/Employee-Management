@@ -12,6 +12,4 @@ public interface UserRepository extends JpaRepository<Users, String> {
     @Query("SELECT u from Users u order by u.modifyDate desc limit 10")
     List<Users> findAllByModifiedDate();
 
-//    @Query("SELECT u from UserLogin u")
-//    List<UserLogin> findLoginEmail();
 }
