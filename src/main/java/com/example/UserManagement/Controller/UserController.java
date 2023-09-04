@@ -13,17 +13,16 @@ import java.util.*;
 
 
 
-
+@CrossOrigin
 @RestController
+@RequestMapping("/user")
 public class UserController {
     @Autowired
-    private final UserRepository userRepository;
+    private  UserRepository userRepository;
 
-
-
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+//    public UserController(UserRepository userRepository) {
+//        this.userRepository = userRepository;
+//    }
 
 //    @GetMapping("/")
 //    public ModelAndView home(){
@@ -39,16 +38,16 @@ public class UserController {
 //        return modelAndView;
 //    }
 
-    @GetMapping("/Edit")
-    public ModelAndView Edit(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("Register");
-        return modelAndView;
-    }
+//    @GetMapping("/Edit")
+//    public ModelAndView Edit(){
+//        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("Register");
+//        return modelAndView;
+//    }
 
 
-    @CrossOrigin
-    @PostMapping("/insert")
+
+    @PostMapping
     public Users insertData(@RequestBody Users user){
 //        System.out.println(new Timestamp(new Date().getTime()));
         Timestamp ts = new Timestamp(new Date().getTime());
@@ -57,15 +56,13 @@ public class UserController {
         return userRepository.save(user);
 
     }
-    @CrossOrigin
-    @GetMapping("/displayData")
+    @GetMapping
     public List<Users> display(){
         System.out.println(userRepository.findAllByModifiedDate());
         return (List<Users>) userRepository.findAllByModifiedDate();
     }
 
-    @CrossOrigin
-    @DeleteMapping("/delete/{email}")
+    @DeleteMapping("/{email}")
     public String delete(@PathVariable String email){
         if(userRepository.existsById(email)){
             userRepository.deleteById(email);
@@ -74,25 +71,23 @@ public class UserController {
         return "success";
     }
 
-    @CrossOrigin
-    @PutMapping("/updateData/{email}")
-    public Optional<Users> updateData(@PathVariable String email){
-        if(userRepository.existsById(email)){
-            return  userRepository.findById(email);
-        }
+//    @CrossOrigin
+//    @PutMapping("/updateData/{email}")
+//    public Optional<Users> updateData(@PathVariable String email){
+//        if(userRepository.existsById(email)){
+//            return  userRepository.findById(email);
+//        }
+//
+//        return null;
+//    }
 
-        return null;
-    }
-
-    @CrossOrigin
-    @GetMapping("/editDataFetch/{email}")
+    @GetMapping("/{email}")
     public Optional<Users> displayDataFetch(@PathVariable String email){
         System.out.println(userRepository.findAll());
         return userRepository.findById(email);
     }
 
-    @CrossOrigin
-    @PostMapping("/insertEditedData")
+    @PutMapping
     public Users insertAfterEditData(@RequestBody Users user){
         Optional<Users> users = userRepository.findById(user.getEmail());
         Timestamp ts = new Timestamp(new Date().getTime());
@@ -111,13 +106,13 @@ public class UserController {
         return user;
     }
 
-    @CrossOrigin
-    @GetMapping("/checkEmail/{email}")
+
+    @GetMapping("/verify/{email}")
     public boolean checkEmail(@PathVariable String email){
         if(userRepository.existsById(email)){
+           System.out.println("Ia ma alive");
             return true;
         }
-
         return false;
     }
 }

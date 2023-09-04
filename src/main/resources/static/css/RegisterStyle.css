@@ -1,5 +1,5 @@
 body{
-    background-color: #3C4AED;
+    background-color: #4f3b78;
     margin: 10px;
     padding: 10px;
 
@@ -11,17 +11,21 @@ body{
     justify-content: space-between;
 }
 
+a{
+    text-decoration: none;
+}
 
 .back-button{
     background-color: whitesmoke;
     color: #3C4AED;
-    padding: 6px 10px;
+    padding: 8px 12px;
     display: inline-block;
     font-size: 18px;
     border-radius: 5%;
     text-decoration: none;
     text-align: center;
     border: none;
+    cursor: pointer;
 }
 
 .form-table{

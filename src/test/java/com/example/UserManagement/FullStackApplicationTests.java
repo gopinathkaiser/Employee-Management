@@ -1,4 +1,4 @@
-package com.example.fullstackapplication;
+package com.example.UserManagement;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

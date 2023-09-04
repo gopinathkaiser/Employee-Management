@@ -1,5 +1,6 @@
 body{
-    background-color: #3C4AED;
+    /* background-color: #3C4AED;e */
+    background-color: #4f3b78;
     margin: 10px;
     padding: 10px;
 
@@ -22,19 +23,78 @@ body{
     text-decoration: none;
     text-align: center;
     border: none;
+    cursor: pointer;
 }
+
+a{
+    text-decoration: none;
+}
+
+button{
+    color: #DDE6ED;
+    background-color: #3C4AED;
+    padding: 4px 8px;
+    margin : 2px;
+    display: inline-block;
+    font-size: 14px;
+    border-radius: 5%;
+    text-decoration: none;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    
+}
+
+.table{
+    border-collapse: collapse;
+    min-width: 85%;
+}
+
+ 
 
 .table-section{
     display: flex;
     justify-content: center;
     margin: 3em 3em;
+    text-align: center;
 }
 
-.table-section table {
+.table-section table tr{
     color : lightyellow;
     border-spacing: 2rem;
-    border: 1px solid white;
+    border: 1px solid grey;
 }
+
+table tr:first-child {
+    background: #6c7ae0;
+   
+}
+
+table tr td{
+   background-color: #ffff;
+   padding: 1rem;
+}
+
+td{
+    background: #F2F2F2  ;
+    color : #333333 ;
+}
+
+th{
+    /* background : #3C4AED; */
+    background: #7f8583  ;
+    color : #333333 ;
+    padding: 1rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: 900;
+    font-size: 1.2rem;
+}
+
+
+
+
+
+ 
 
 
 
