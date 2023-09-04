@@ -1,5 +1,4 @@
 body{
-    /* background-color: #3C4AED;e */
     background-color: #4f3b78;
     margin: 10px;
     padding: 10px;
@@ -32,7 +31,7 @@ a{
 
 button{
     color: #DDE6ED;
-    background-color: #3C4AED;
+    background-color: #5371db;
     padding: 4px 8px;
     margin : 2px;
     display: inline-block;
@@ -78,14 +77,15 @@ table tr td{
 td{
     background: #F2F2F2  ;
     color : #333333 ;
+    font-family: Arial, Helvetica, sans-serif;
+
 }
 
 th{
-    /* background : #3C4AED; */
     background: #7f8583  ;
     color : #333333 ;
     padding: 1rem;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-weight: 900;
     font-size: 1.2rem;
 }
