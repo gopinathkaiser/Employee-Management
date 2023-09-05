@@ -36,6 +36,10 @@ public class Users {
    @Column(nullable = true)
    private Timestamp createDate;
 
+    public Users() {
+
+    }
+
     @Override
     public String toString() {
         return "Users{" +
@@ -52,6 +56,21 @@ public class Users {
 
     @Column(nullable = true)
    private Timestamp modifyDate;
+
+    public Users(String email, String fname, String lname, Long mobile, LocalDate dob, String address, Timestamp createDate, Timestamp modifyDate) {
+        this.email = email;
+        this.fname = fname;
+        this.lname = lname;
+        this.mobile = mobile;
+        this.dob = dob;
+        this.address = address;
+        this.createDate = createDate;
+        this.modifyDate = modifyDate;
+    }
+
+    public Users(String email) {
+        this.email = email;
+    }
 
     public Timestamp getCreateDate() {
         return createDate;

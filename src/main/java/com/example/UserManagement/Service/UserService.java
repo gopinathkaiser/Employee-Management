@@ -30,6 +30,7 @@ public class UserService {
     }
 
     public Optional<Users> displayDataFetch(String email){
+        System.out.println(userRepository.findById(email));
         return userRepository.findById(email);
     }
 

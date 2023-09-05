@@ -23,33 +23,34 @@ public class UserController {
         Timestamp ts = new Timestamp(new Date().getTime());
         user.setModifyDate(ts);
         user.setCreateDate(ts);
-        return this.userService.addUser(user);
+        return userService.addUser(user);
 
     }
     @GetMapping
     public List<Users> display(){
-        return (List<Users>) this.userService.findByModified();
+        return (List<Users>) userService.findByModified();
     }
 
     @DeleteMapping("/{email}")
     public String delete(@PathVariable String email){
-         return this.userService.deleteUser(email);
+         return userService.deleteUser(email);
 
     }
 
     @GetMapping("/{email}")
     public Optional<Users> displayDataFetch(@PathVariable String email){
-        return this.userService.displayDataFetch(email);
+
+        return userService.displayDataFetch(email);
     }
 
     @PutMapping
     public Users insertAfterEditData(@RequestBody Users user){
-        return this.userService.insertAfterDataEdited(user);
+        return userService.insertAfterDataEdited(user);
     }
 
 
     @GetMapping("/verify/{email}")
     public boolean checkEmail(@PathVariable String email){
-        return this.userService.checkEmail(email);
+        return userService.checkEmail(email);
     }
 }

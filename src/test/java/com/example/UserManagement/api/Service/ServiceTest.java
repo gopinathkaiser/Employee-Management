@@ -10,6 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,13 +70,13 @@ public class ServiceTest {
     @Test
     public void displaySingleUserData(){
 
-        Optional<Users> opt = null;
+        Users opt = new Users("shankar@gmail.com","sankar","m",9878787878L, LocalDate.of(2002,9,19),"chennai",new Timestamp(new Date().getTime()),new Timestamp(new Date().getTime()));
 
-        when(userRepository.findById("gopinath@gmail.com")).thenReturn(null);
+        when(userRepository.findById("gopinath@gmail.com")).thenReturn(Optional.of(opt));
 
         Optional<Users> response = userService.displayDataFetch("gopinath@gmail.com");
 
-        Assertions.assertEquals(null,response);
+        Assertions.assertEquals(Optional.of(opt),response);
     }
 
     @Test
