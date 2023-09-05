@@ -9,7 +9,7 @@ async function updateSignup() {
 
     if (await checkEmailExists()) {
 
-        await fetch('http://localhost:8080/Auth/insert', {
+        await fetch('http://localhost:8080/Auth/', {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json'

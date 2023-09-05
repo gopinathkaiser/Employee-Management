@@ -1,8 +1,4 @@
 
-let arr = [
-    {}
-];
-
 async function validateEmail() {
     let email = document.getElementById("email");
     let emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -115,7 +111,6 @@ async function checkAllValidation() {
     if (document.getElementById("email").disabled == true) {
 
         if (validateFirstName() && validateLastName() && validateMobileNum && validateDob()) {
-            console.log("data editing");
             fetch('http://localhost:8080/user', {
                 method: 'PUT',
                 headers: {
@@ -125,7 +120,6 @@ async function checkAllValidation() {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("data inserted after editing", data);
                     alert("Data modified successfully");
                 })
                 .catch(error => {
@@ -145,8 +139,7 @@ async function checkAllValidation() {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log("Datas are", data);
-                    alert("data inserted successfully");
+                    alert("data added successfully");
                     document.getElementById("form-reset").reset();
                 })
 
@@ -219,7 +212,6 @@ async function displayUserData() {
                 tableRow.appendChild(tableData);
 
                 document.getElementById("table").appendChild(tableRow);
-                addToLocalArr(reponseDataItem);
 
             })
 
@@ -306,10 +298,7 @@ function displayOnForm(userData) {
     };
 }
 
-function addToLocalArr(data) {
-    arr.push(data);
 
-}
 
 
 

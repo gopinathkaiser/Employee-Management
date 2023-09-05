@@ -2,24 +2,26 @@ async function checkLoginDetails() {
     event.preventDefault();
     const email = document.getElementById("login-email").value;
     const pass = document.getElementById("password").value;
-    console.log("calles");
+
+    const formData = {
+        "email" : document.getElementById("login-email").value,
+        "pass" : document.getElementById("password").value
+    };
 
 
     if (await checkEmailExists()) {
-        await fetch(`http://localhost:8080/Auth/checkLogin/${email}`)
+        await fetch(`http://localhost:8080/Auth/${email}`,{
+            
+        })
             .then(response => response.json())
             .then(data => {
-                if(data.email == email){
-                    if(data.password == pass){
-                        
+                if (data.email == email) {
+                    if (data.password == pass) {
                         location.href = "../templates/index.html";
-                    }else{
+                    } else {
                         alert("password wrong");
                     }
-                    
                 }
-                
-                
 
             })
             .catch(error => {
@@ -39,10 +41,9 @@ async function checkEmailExists() {
     await fetch(`http://localhost:8080/Auth/userExists/${email.value}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data + "check email exists");
             if (data) {
                 bool = true;
-                // return true;
+
             }
         })
         .catch(err => {

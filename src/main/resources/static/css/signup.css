@@ -30,8 +30,8 @@ h1{
 .body-main{
     border: 1px solid green;
     background: #5371db;
-    width: 30%;
-    height: 60%;
+    width: max-content;
+    height: max-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
