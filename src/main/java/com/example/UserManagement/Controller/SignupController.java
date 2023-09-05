@@ -2,6 +2,7 @@ package com.example.UserManagement.Controller;
 
 import com.example.UserManagement.Model.UserSignup;
 import com.example.UserManagement.Repository.UserSignupRepo;
+import com.example.UserManagement.Service.SignupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +14,15 @@ import java.util.Optional;
 public class SignupController {
 
     @Autowired
-    private UserSignupRepo userSignupRepo;
+    SignupService signupService;
 
     @CrossOrigin
     @PostMapping("/")
     public UserSignup addUser(@RequestBody UserSignup userData){
 
-        return userSignupRepo.save(userData);
+//        return userSignupRepo.save(userData);
+
+        return this.signupService.addUser(userData);
     }
 
 //    @CrossOrigin
@@ -31,14 +34,16 @@ public class SignupController {
     @CrossOrigin
     @GetMapping("/userExists/{email}")
     public boolean checkUser(@PathVariable String email){
-        if(userSignupRepo.existsById(email))    return true;
-        return false;
+//        if(userSignupRepo.existsById(email))    return true;
+//        return false;
+
+        return this.signupService.checkUser(email);
     }
 
     @CrossOrigin
     @GetMapping ("/{email}")
     public Optional<UserSignup> checkData(@PathVariable String email){
-        return userSignupRepo.findById(email);
+        return this.signupService.checkData(email);
 
     }
 

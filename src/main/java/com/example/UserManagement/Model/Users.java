@@ -8,6 +8,9 @@ import jakarta.persistence.Table;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
+//@Builder
+//@AllArgsConstructor
+//@NoArgsConstructor
 @Entity
 @Table(name = "Users")
 public class Users {
