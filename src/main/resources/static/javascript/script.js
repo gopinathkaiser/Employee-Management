@@ -87,7 +87,7 @@ function validateDob() {
 
 function validateMobileNum() {
     let mobileNum = document.getElementById("mobile");
-    let numRegex = /^[6789]\d{9}$/;
+    let numRegex = /^[6-9]\d{9}$/;
     if (numRegex.test(mobileNum.value)) {
         document.getElementById("warn-mobile").style.visibility = 'hidden';
 

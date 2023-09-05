@@ -9,10 +9,10 @@ async function checkLoginDetails() {
         await fetch(`http://localhost:8080/Auth/checkLogin/${email}`)
             .then(response => response.json())
             .then(data => {
-                // console.log(data[0]["email"], data[0]["password"], email, pass);
                 if(data.email == email){
                     if(data.password == pass){
-                        location = "../../templates/index.html";
+                        
+                        location.href = "../templates/index.html";
                     }else{
                         alert("password wrong");
                     }
