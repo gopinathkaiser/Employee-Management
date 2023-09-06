@@ -299,6 +299,48 @@ function displayOnForm(userData) {
 }
 
 
+(function () {
+    'use strict';
+
+    // Create a global variable and expose it to the world
+    var $myapp = {};
+    self.$myapp = $myapp;
+
+    $myapp.isValidDate = function (dateString) {
+
+        let todayDate = new Date();
+
+        if (new Date(dateString).getTime() >= todayDate.getTime()) {
+
+            return false;
+        }
+        return true;
+    };
+
+
+    $myapp.isValidMobile = function (mobileNum) {
+        let numRegex = /^[6-9]\d{9}$/;
+        return (numRegex.test(mobileNum))
+
+    }
+
+    $myapp.isValidFname = function (fname) {
+        let fnameRegex = /^[A-Za-z\s]*$/;
+        return fnameRegex.test(fname);
+    }
+
+    $myapp.isValidLname = function (lname) {
+        let lnameRegex = /^[A-Za-z\s]*$/;
+        return lnameRegex.test(lname);
+    }
+
+    $myapp.isValidEmail = function (email) {
+        let emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return emailRegex.test(email);
+    }
+})();
+
+
 
 
 
