@@ -10,8 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.util.Assert;
-//import org.springframework.util.Assert;
+
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -41,9 +40,9 @@ public class ControllerTest {
 
         when(userService.addUser(users)).thenReturn(users);
 
-        Users reponse = userController.insertData(users);
+        Users response = userController.insertData(users);
 
-        Assertions.assertEquals(users,reponse);
+        Assertions.assertEquals(users,response);
 
     }
 
@@ -52,9 +51,9 @@ public class ControllerTest {
 
         when(userService.deleteUser("gopinath@gmail.com")).thenReturn("deleted");
 
-        String reponse = userController.delete("gopinath@gmail.com");
+        String response = userController.delete("gopinath@gmail.com");
 
-        Assertions.assertEquals("deleted",reponse);
+        Assertions.assertEquals("deleted",response);
 
     }
 
@@ -93,6 +92,17 @@ public class ControllerTest {
         Assertions.assertEquals(true,response);
     }
 
-   
+    @Test
+    public void updateData(){
+
+        Users users = new Users("shankar@gmail.com","sankar","m",9878787878L, LocalDate.of(2002,9,19),"chennai");
+
+        when(userService.insertAfterDataEdited(users)).thenReturn(users);
+
+        Users response = userController.insertAfterEditData(users);
+
+        Assertions.assertEquals(users,response);
+
+    }
 
 }

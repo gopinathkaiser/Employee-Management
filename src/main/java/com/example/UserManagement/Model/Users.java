@@ -8,9 +8,7 @@ import jakarta.persistence.Table;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
-//@Builder
-//@AllArgsConstructor
-//@NoArgsConstructor
+
 @Entity
 @Table(name = "Users")
 public class Users {
@@ -36,8 +34,15 @@ public class Users {
    @Column(nullable = true)
    private Timestamp createDate;
 
+    @Column(nullable = true)
+    private Timestamp modifyDate;
+
+
     public Users() {
 
+    }
+
+    public Users(String mail, String sankar, String m, long l, LocalDate of, String chennai) {
     }
 
     @Override
@@ -54,8 +59,6 @@ public class Users {
                 '}';
     }
 
-    @Column(nullable = true)
-   private Timestamp modifyDate;
 
     public Users(String email, String fname, String lname, Long mobile, LocalDate dob, String address, Timestamp createDate, Timestamp modifyDate) {
         this.email = email;
@@ -91,7 +94,6 @@ public class Users {
     public String getEmail() {
         return email;
     }
-
 
 
     public void setEmail(String email) {
