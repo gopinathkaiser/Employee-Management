@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 
 import java.sql.Timestamp;
@@ -61,10 +63,10 @@ public class ControllerTest {
     public void displayAll(){
 
         List<Users> opt = null;
+        Pageable pageable = PageRequest.of(0,10);
+        when(userService.findByModified(pageable)).thenReturn(opt);
 
-        when(userService.findByModified()).thenReturn(opt);
-
-        List<Users> response = userController.display();
+        List<Users> response = userController.displayPaging(0,10);
 
         Assertions.assertEquals(null,response);
 

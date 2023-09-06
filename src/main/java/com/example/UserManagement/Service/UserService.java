@@ -3,6 +3,8 @@ package com.example.UserManagement.Service;
 import com.example.UserManagement.Model.Users;
 import com.example.UserManagement.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -20,8 +22,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public List<Users> findByModified(){
-        return userRepository.findAllByModifiedDate();
+    public List<Users> findByModified(Pageable pageable){
+        return userRepository.findAllByModifiedDate( pageable);
     }
 
     public String deleteUser(String email){
@@ -53,11 +55,14 @@ public class UserService {
 
     public boolean checkEmail(String email){
         if(userRepository.existsById(email)){
-            System.out.println("Ia ma alive");
             return true;
         }
         return false;
     }
 
+    public long findCount(){
+        System.out.println(userRepository.count());
+        return userRepository.count();
+    }
 
 }

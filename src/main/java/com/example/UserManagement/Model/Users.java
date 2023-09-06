@@ -34,7 +34,7 @@ public class Users {
    @Column(nullable = true)
    private Timestamp createDate;
 
-    @Column(nullable = true)
+    @Column
     private Timestamp modifyDate;
 
 

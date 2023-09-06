@@ -23,8 +23,8 @@
     }
 
 
-    it('valid Date check for 02/02/2023', function validateDob() {
-        assert($myapp.isValidDate('02/02/2023'));
+    it('valid Date check for 02/02/2020', function validateDob() {
+        assert($myapp.isValidDate('02/02/2020'));
     });
 
     it('valid Date check for 02/02/1900', function validateDob() {

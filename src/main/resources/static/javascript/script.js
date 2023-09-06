@@ -1,6 +1,8 @@
-
+let page = 0;
+let max = 0;
 async function validateEmail() {
     let email = document.getElementById("email");
+    console.log("validate email called");
     let emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     let checkForAlert = 1;
     if (emailRegex.test(email.value)) {
@@ -154,72 +156,72 @@ async function checkAllValidation() {
 }
 
 
-async function displayUserData() {
+// async function displayUserData() {
 
-    let tableMain = document.getElementById("table");
-    tableMain.innerHTML = "";
+//     let tableMain = document.getElementById("table");
+//     tableMain.innerHTML = "";
 
-    tableMain.innerHTML = "<tr class='table-head'>\n" +
+//     tableMain.innerHTML = "<tr class='table-head'>\n" +
 
-        "                    <th>Email</th>\n" +
-        "                    <th>First Name</th>\n" +
-        "                    <th>Last Name</th>\n" +
-        "                    <th>Mobile</th>\n" +
-        "                    <th>Date of Birth</th>\n" +
-        "                    <th>Address</th>\n" +
-        "                    <th>Action</th>\n" +
+//         "                    <th>Email</th>\n" +
+//         "                    <th>First Name</th>\n" +
+//         "                    <th>Last Name</th>\n" +
+//         "                    <th>Mobile</th>\n" +
+//         "                    <th>Date of Birth</th>\n" +
+//         "                    <th>Address</th>\n" +
+//         "                    <th>Action</th>\n" +
 
-        "                </tr>";
-    await fetch('http://localhost:8080/user', {
-        method: 'GET'
-    })
+//         "                </tr>";
+//     await fetch('http://localhost:8080/user/', {
+//         method: 'GET'
+//     })
 
-        .then(response => response.json())
-        .then(responseData => {
+//         .then(response => response.json())
+//         .then(responseData => {
 
-            let tableMain = document.getElementsByClassName("table");
-            responseData.forEach(reponseDataItem => {
-                let tableRow = document.createElement("tr");
-                let parsedDate;
-                let key = ["email", "fname", "lname", "mobile", "dob", "address"];
-                for (let i = 0; i < 6; i++) {
-                    let tableData = document.createElement("td");
-                    if (key[i] == "dob") {
-                        const parseArray = reponseDataItem[key[i]].split("-");
-                        parsedDate = parseArray[2] + "-" + parseArray[1] + "-" + parseArray[0];
-                    } else {
-                        parsedDate = reponseDataItem[key[i]];
-                    }
-                    let tableDataText = document.createTextNode(parsedDate);
-                    tableData.appendChild(tableDataText);
-                    tableRow.appendChild(tableData);
-                }
-                let tableData = document.createElement("td");
-                let tableButtonEdit = document.createElement("button");
-                tableButtonEdit.textContent = "EDIT";
-                tableButtonEdit.onclick = function () {
-                    editData(reponseDataItem["email"]);
-                }
-                tableData.appendChild(tableButtonEdit);
-                let tableButtonDelete = document.createElement("button");
-                tableButtonDelete.textContent = "DELETE";
-                tableButtonDelete.onclick = function () {
-                    deleteData(reponseDataItem["email"]);
-                }
-                tableData.appendChild(tableButtonDelete);
+//             let tableMain = document.getElementsByClassName("table");
+//             responseData.forEach(reponseDataItem => {
+//                 let tableRow = document.createElement("tr");
+//                 let parsedDate;
+//                 let key = ["email", "fname", "lname", "mobile", "dob", "address"];
+//                 for (let i = 0; i < 6; i++) {
+//                     let tableData = document.createElement("td");
+//                     if (key[i] == "dob") {
+//                         const parseArray = reponseDataItem[key[i]].split("-");
+//                         parsedDate = parseArray[2] + "-" + parseArray[1] + "-" + parseArray[0];
+//                     } else {
+//                         parsedDate = reponseDataItem[key[i]];
+//                     }
+//                     let tableDataText = document.createTextNode(parsedDate);
+//                     tableData.appendChild(tableDataText);
+//                     tableRow.appendChild(tableData);
+//                 }
+//                 let tableData = document.createElement("td");
+//                 let tableButtonEdit = document.createElement("button");
+//                 tableButtonEdit.textContent = "EDIT";
+//                 tableButtonEdit.onclick = function () {
+//                     editData(reponseDataItem["email"]);
+//                 }
+//                 tableData.appendChild(tableButtonEdit);
+//                 let tableButtonDelete = document.createElement("button");
+//                 tableButtonDelete.textContent = "DELETE";
+//                 tableButtonDelete.onclick = function () {
+//                     deleteData(reponseDataItem["email"]);
+//                 }
+//                 tableData.appendChild(tableButtonDelete);
 
 
-                tableRow.appendChild(tableData);
+//                 tableRow.appendChild(tableData);
 
-                document.getElementById("table").appendChild(tableRow);
+//                 document.getElementById("table").appendChild(tableRow);
 
-            })
+//             })
 
-        })
-        .catch(error => {
-            console.log("error", error);
-        })
-}
+//         })
+//         .catch(error => {
+//             console.log("error", error);
+//         })
+// }
 
 
 async function editData(email) {
@@ -341,6 +343,108 @@ function displayOnForm(userData) {
 })();
 
 
+async function displayUserData() {
+
+    await fetch(`http://localhost:8080/user/countData`)
+        .then(response => response.json())
+        .then(responseCount => {
+            console.log(responseCount + "total data");
+            max = Math.ceil(responseCount / 10);
+            console.log(max);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+    let tableMain = document.getElementById("table");
+    tableMain.innerHTML = "";
+
+    tableMain.innerHTML = "<tr class='table-head'>\n" +
+
+        "                    <th>Email</th>\n" +
+        "                    <th>First Name</th>\n" +
+        "                    <th>Last Name</th>\n" +
+        "                    <th>Mobile</th>\n" +
+        "                    <th>Date of Birth</th>\n" +
+        "                    <th>Address</th>\n" +
+        "                    <th>Action</th>\n" +
+
+        "                </tr>";
+
+    await diplayData(page);
+
+}
+
+async function diplayData(page) {
+    await fetch(`http://localhost:8080/user/${page}/${10}`)
+
+        .then((response) => response.json())
+        .then(responseData => {
+
+            let tableMain = document.getElementsByClassName("table");
+            responseData.forEach(reponseDataItem => {
+                let tableRow = document.createElement("tr");
+                let parsedDate;
+                let key = ["email", "fname", "lname", "mobile", "dob", "address"];
+                for (let i = 0; i < 6; i++) {
+                    let tableData = document.createElement("td");
+                    if (key[i] == "dob") {
+                        const parseArray = reponseDataItem[key[i]].split("-");
+
+                        parsedDate = parseArray[2] + "-" + parseArray[1] + "-" + parseArray[0];
+                    } else {
+
+                        parsedDate = reponseDataItem[key[i]];
+                    }
+                    let tableDataText = document.createTextNode(parsedDate);
+                    tableData.appendChild(tableDataText);
+                    tableRow.appendChild(tableData);
+                }
+                let tableData = document.createElement("td");
+                let tableButtonEdit = document.createElement("button");
+                tableButtonEdit.textContent = "EDIT";
+                tableButtonEdit.onclick = function () {
+                    editData(reponseDataItem["email"]);
+                }
+                tableData.appendChild(tableButtonEdit);
+                let tableButtonDelete = document.createElement("button");
+                tableButtonDelete.textContent = "DELETE";
+                tableButtonDelete.onclick = function () {
+                    deleteData(reponseDataItem["email"]);
+                }
+                tableData.appendChild(tableButtonDelete);
+
+
+                tableRow.appendChild(tableData);
+
+                document.getElementById("table").appendChild(tableRow);
+
+            })
+
+        })
+        .catch(error => {
+            console.log("error", error);
+        })
+}
+
+function nextPage() {
+    if ((page + 1) < max) {
+        page++;
+        document.getElementById("currentPage").textContent = page;
+        displayUserData(page);
+    }
+
+
+}
+
+function prevPage() {
+    if (page > 0) {
+        page--;
+        document.getElementById("currentPage").textContent = page;
+        displayUserData(page);
+
+    }
+}
 
 
 

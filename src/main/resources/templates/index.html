@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
@@ -15,7 +15,7 @@
                 <div class="header-button">
                     <div>
                         <a href="Register.html" ><button type="submit" class="add-button">ADD</button></a>
-                        <a href="login.html" ><button type="submit" class="add-button">Logout</button></a>
+                        <a href="login.html" ><button type="submit" class="add-button" onclick="return confirm(`Are u sure`)">Logout</button></a>
 
                     </div>
 
@@ -31,13 +31,25 @@
                     <th>Mobile</th>
                     <th>Date of Birth</th>
                     <th>Address</th>
-                    <th>Action</th>
+                    <th>
+                        <span>
+                            Action
+                        </span>
+                        <span>
+                            hello
+                        <span>
+                    </th>
                 </tr>
             </table>
         </section>
+        <div id="paging">
+            <button id="prevPage" onclick="prevPage()">Prev</button>
+            <span id="currentPage">0</span>
+            <button id="nextPage" onclick="nextPage()">Next</button>
+        </div>
     </div>
 
 <script src="../static/javascript/script.js"></script>
-<script src="../static/javascript/test.js"></script>
+<!-- <script src="../static/javascript/test.js"></script> -->
 </body>
 </html>

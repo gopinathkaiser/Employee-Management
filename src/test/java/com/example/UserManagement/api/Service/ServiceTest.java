@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -58,10 +60,10 @@ public class ServiceTest {
     public void displayAll(){
 
         List<Users> opt = null;
+        Pageable pageable = PageRequest.of(0,10);
+        when(userRepository.findAllByModifiedDate(pageable)).thenReturn(opt);
 
-        when(userRepository.findAllByModifiedDate()).thenReturn(opt);
-
-        List<Users> response = userService.findByModified();
+        List<Users> response = userService.findByModified(pageable);
 
         Assertions.assertEquals(null,response);
 

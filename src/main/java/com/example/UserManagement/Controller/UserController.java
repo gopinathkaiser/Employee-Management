@@ -5,6 +5,10 @@ import com.example.UserManagement.Model.Users;
 import com.example.UserManagement.Service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
@@ -26,10 +30,10 @@ public class UserController {
         return userService.addUser(user);
 
     }
-    @GetMapping
-    public List<Users> display(){
-        return (List<Users>) userService.findByModified();
-    }
+//    @GetMapping
+//    public List<Users> display(){
+//        return (List<Users>) userService.findByModified();
+//    }
 
     @DeleteMapping("/{email}")
     public String delete(@PathVariable String email){
@@ -52,6 +56,18 @@ public class UserController {
     @GetMapping("/verify/{email}")
     public boolean checkEmail(@PathVariable String email){
         return userService.checkEmail(email);
+    }
+
+    @GetMapping("/{page}/{size}")
+    public List<Users> displayPaging(@PathVariable int page, @PathVariable int size){
+        Pageable pageable = PageRequest.of(page, size);
+        return userService.findByModified(pageable);
+    }
+
+    @GetMapping("/countData")
+    public long countData(){
+
+        return userService.findCount();
     }
 }
 
