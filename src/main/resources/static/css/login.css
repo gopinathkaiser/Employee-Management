@@ -1,3 +1,12 @@
+body{
+    padding: 0;
+    margin: 0;
+    background-color: #4f3b78;
+}
+
+
+
+
 .body{
     height: 70vh;
     display: flex;
@@ -8,8 +17,8 @@
 
 .submit-button {
     
-    color: #5371db;
-    background-color: #DDE6ED;
+    color: #DDE6ED;
+    background-color:  #4f3b78;
     padding: 4px 8px;
     margin: 2px;
     display: inline-block;
@@ -27,8 +36,8 @@ h1{
 }
 
 .body-main{
-    border: 1px solid green;
-    background: #5371db;
+    border: 1px solid #e5e9f8;
+    background: #e5e9f8;
     width: max-content;
     height: max-content;
     display: flex;
@@ -39,4 +48,10 @@ h1{
 
 td{
     padding: 10px;
+}
+
+.image{
+    height: 3rem;
+    width: 5rem;
+    margin-bottom: 1.5rem;
 }

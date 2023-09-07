@@ -10,17 +10,28 @@ async function checkLoginDetails() {
 
 
     if (await checkEmailExists()) {
-        await fetch(`http://localhost:8080/Auth/${email}`,{
-            
+        await fetch(`http://localhost:8080/Auth/validate`,{
+            method : 'POST',
+            headers : {
+                'Content-type' : 'application/json'
+            },
+            body : JSON.stringify(formData)
         })
             .then(response => response.json())
             .then(data => {
-                if (data.email == email) {
-                    if (data.password == pass) {
-                        location.href = "../templates/index.html";
-                    } else {
-                        alert("password wrong");
-                    }
+                // if (data.email == email) {
+                //     if (data.password == pass) {
+                //         location.href = "../templates/index.html";
+                //     } else {
+                //         alert("password wrong");
+                //     }
+                // }
+
+                console.log(data);
+                if(data == "success"){
+                    location.href = "../templates/index.html";
+                }else{
+                    alert("password wrong");
                 }
 
             })

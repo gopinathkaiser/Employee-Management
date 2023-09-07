@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.support.ModelAndViewContainer;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -30,6 +31,14 @@ public class UserController {
         return userService.addUser(user);
 
     }
+
+//    @GetMapping("/hello")
+//    public ModelAndViewContainer hello(){
+//        ModelAndViewContainer mv = new ModelAndViewContainer();
+//        mv.setViewName("Register.html");
+//        return mv;
+//    }
+
 //    @GetMapping
 //    public List<Users> display(){
 //        return (List<Users>) userService.findByModified();

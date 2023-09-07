@@ -7,15 +7,18 @@
 </head>
 <body>  
     <div class="body">
+        <div>
+            <img src="../static/Images/Divum_Logo.svg" alt="Logo" class="image">
+        </div>
         <div class="body-main">
-        <h1>SIGNUP</h1>
+        <h1>SIGN UP</h1>
         <table>
             <form onsubmit="updateSignup()">
 
                 <tr>
                     <td>Email </td>
                     <td>
-                        <input type="email" id="signup-email" onchange="checkEmailExists()" autocomplete="off" required>
+                        <input type="email" id="signup-email" onchange="validateEmail()" autocomplete="off" required>
                     </td>
                 </tr>
                 <tr>
@@ -27,13 +30,13 @@
                 <tr>
                     <td>password</td>
                     <td>
-                        <input type="password" id="signup-password" required> 
+                        <input type="password" id="signup-password" required onchange="validatePassword()"> 
                     </td>
                 </tr>
                 <tr>
                     <td>Re-Enter password</td>
                     <td>
-                        <input type="password" id="signup-ReEnter-password" required> 
+                        <input type="password" id="signup-ReEnter-password" onchange="checkReEnteredPassword()"> 
                     </td>
                 </tr>
                 <tr>

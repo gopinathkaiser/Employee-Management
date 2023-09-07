@@ -77,6 +77,8 @@ function validateDob() {
 
     if (new Date(dob.value).getTime() >= todayDate.getTime()) {
         alert("The Date must be lesser or Equal to today date");
+        document.getElementById("warn-dob").style.visibility = 'visible';
+
         dob.focus();
         return false;
     }
@@ -360,7 +362,6 @@ async function displayUserData() {
     tableMain.innerHTML = "";
 
     tableMain.innerHTML = "<tr class='table-head'>\n" +
-
         "                    <th>Email</th>\n" +
         "                    <th>First Name</th>\n" +
         "                    <th>Last Name</th>\n" +
@@ -382,6 +383,7 @@ async function diplayData(page) {
         .then(responseData => {
 
             let tableMain = document.getElementsByClassName("table");
+            let tableBody = document.createElement("tbody");
             responseData.forEach(reponseDataItem => {
                 let tableRow = document.createElement("tr");
                 let parsedDate;
@@ -416,8 +418,9 @@ async function diplayData(page) {
 
 
                 tableRow.appendChild(tableData);
+                tableBody.appendChild(tableRow);
 
-                document.getElementById("table").appendChild(tableRow);
+                document.getElementById("table").appendChild(tableBody);
 
             })
 
@@ -433,8 +436,6 @@ function nextPage() {
         document.getElementById("currentPage").textContent = page;
         displayUserData(page);
     }
-
-
 }
 
 function prevPage() {
@@ -446,6 +447,13 @@ function prevPage() {
     }
 }
 
+function clearData(){
+    document.getElementById("warn-dob").style.visibility = 'hidden';
+    document.getElementById("warn-mobile").style.visibility = 'hidden';
+    document.getElementById("warn-fname").style.visibility = 'hidden';
+    document.getElementById("warn-lname").style.visibility = 'hidden';
+    document.getElementById("warn-email").style.visibility = 'hidden';
 
+}
 
 
