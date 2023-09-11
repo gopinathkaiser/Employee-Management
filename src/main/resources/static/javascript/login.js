@@ -5,7 +5,7 @@ async function checkLoginDetails() {
 
     const formData = {
         "email" : document.getElementById("login-email").value,
-        "pass" : document.getElementById("password").value
+        "password" : document.getElementById("password").value
     };
 
 
@@ -17,7 +17,7 @@ async function checkLoginDetails() {
             },
             body : JSON.stringify(formData)
         })
-            .then(response => response.json())
+            .then(response => response.text())
             .then(data => {
                 // if (data.email == email) {
                 //     if (data.password == pass) {
@@ -29,6 +29,7 @@ async function checkLoginDetails() {
 
                 console.log(data);
                 if(data == "success"){
+                    
                     location.href = "../templates/index.html";
                 }else{
                     alert("password wrong");

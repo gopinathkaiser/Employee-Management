@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -76,7 +77,7 @@ public class ServiceTest {
 
         when(userRepository.findById("gopinath@gmail.com")).thenReturn(Optional.of(opt));
 
-        Optional<Users> response = userService.displayDataFetch("gopinath@gmail.com");
+        ResponseEntity<Users> response = userService.displayDataFetch("gopinath@gmail.com");
 
         Assertions.assertEquals(Optional.of(opt),response);
     }

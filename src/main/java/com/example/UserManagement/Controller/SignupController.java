@@ -36,8 +36,7 @@ public class SignupController {
 
     @PostMapping ("/validate")
     public String checkData(@RequestBody UserSignup userSignup){
-        Optional<UserSignup> response = this.signupService.checkData(userSignup.getEmail());
-
+        Optional<UserSignup> response = signupService.checkData(userSignup.getEmail());
         if(BCrypt.checkpw(userSignup.getPassword(),response.get().getPassword())){
             return "success";
         }

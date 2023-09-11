@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 
 
 import java.sql.Timestamp;
@@ -72,17 +73,37 @@ public class ControllerTest {
 
     }
 
+//    @Test
+//    public void displaySingleUserData(){
+//
+//        Users opt = new Users("shankar@gmail.com","sankar","m",9878787878L, LocalDate.of(2002,9,19),"chennai",new Timestamp(new Date().getTime()),new Timestamp(new Date().getTime()));
+//
+//        Object ResponseEntity = null;
+//        when(userService.displayDataFetch("gopinath@gmail.com")).thenReturn(ResponseEntity.ok.body(opt));
+//
+//        ResponseEntity<Users> response = userController.displayDataFetch("gopinath@gmail.com");
+//
+//        Assertions.assertEquals(opt,response.getBody());
+//
+//
+//    }
+
+
     @Test
-    public void displaySingleUserData(){
+    public void displaySingleUserData() {
+        Users opt = new Users("shankar@gmail.com", "sankar", "m", 9878787878L, LocalDate.of(2002, 9, 19), "chennai", new Timestamp(new Date().getTime()), new Timestamp(new Date().getTime()));
 
-        Users opt = new Users("shankar@gmail.com","sankar","m",9878787878L, LocalDate.of(2002,9,19),"chennai",new Timestamp(new Date().getTime()),new Timestamp(new Date().getTime()));
+        ResponseEntity<Users> responseEntity = ResponseEntity.ok().body(opt);
 
-        when(userService.displayDataFetch("gopinath@gmail.com")).thenReturn(Optional.of(opt));
+        // Stub the userService to return the ResponseEntity
+        when(userService.displayDataFetch("gopinath@gmail.com")).thenReturn(responseEntity);
 
-        Optional<Users> response = userController.displayDataFetch("gopinath@gmail.com");
+        ResponseEntity<Users> response = userController.displayDataFetch("gopinath@gmail.com");
 
-        Assertions.assertEquals(Optional.of(opt),response);
+        Assertions.assertEquals(opt, response.getBody());
     }
+
+
 
     @Test
     public void checkEmailExists(){

@@ -280,6 +280,7 @@ function getEditData() {
 
 function displayOnForm(userData) {
     console.log("hello from display from", userData);
+    
     document.getElementById("clear-button").style.display = 'none';
     document.getElementById("email").value = userData.email;
     document.getElementById("email").disabled = true;

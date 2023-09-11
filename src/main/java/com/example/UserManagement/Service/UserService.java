@@ -5,6 +5,7 @@ import com.example.UserManagement.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -31,9 +32,10 @@ public class UserService {
          return "deleted";
     }
 
-    public Optional<Users> displayDataFetch(String email){
-        System.out.println(userRepository.findById(email));
-        return userRepository.findById(email);
+    public ResponseEntity<Users> displayDataFetch(String email){
+        Users users = userRepository.findById(email).orElse(new ResourceNotFoundException("exception"));
+        ResponseEntity.status(205);
+        return ResponseEntity.ok().body(users);
     }
 
     public Users insertAfterDataEdited(Users user){
@@ -61,7 +63,7 @@ public class UserService {
     }
 
     public long findCount(){
-        System.out.println(userRepository.count());
+
         return userRepository.count();
     }
 

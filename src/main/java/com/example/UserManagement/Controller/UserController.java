@@ -1,16 +1,13 @@
 package com.example.UserManagement.Controller;
 
-import com.example.UserManagement.Repository.UserRepository;
 import com.example.UserManagement.Model.Users;
 import com.example.UserManagement.Service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.support.ModelAndViewContainer;
 
 import java.sql.Timestamp;
 import java.util.*;
@@ -32,18 +29,6 @@ public class UserController {
 
     }
 
-//    @GetMapping("/hello")
-//    public ModelAndViewContainer hello(){
-//        ModelAndViewContainer mv = new ModelAndViewContainer();
-//        mv.setViewName("Register.html");
-//        return mv;
-//    }
-
-//    @GetMapping
-//    public List<Users> display(){
-//        return (List<Users>) userService.findByModified();
-//    }
-
     @DeleteMapping("/{email}")
     public String delete(@PathVariable String email){
          return userService.deleteUser(email);
@@ -51,8 +36,8 @@ public class UserController {
     }
 
     @GetMapping("/{email}")
-    public Optional<Users> displayDataFetch(@PathVariable String email){
-
+    public ResponseEntity<Users> displayDataFetch(@PathVariable String email){
+        System.out.println(userService.displayDataFetch(email));
         return userService.displayDataFetch(email);
     }
 
