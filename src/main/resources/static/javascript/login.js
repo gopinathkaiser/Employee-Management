@@ -1,3 +1,5 @@
+const { default: swal } = require("sweetalert");
+
 async function checkLoginDetails() {
     event.preventDefault();
     const email = document.getElementById("login-email").value;
@@ -19,20 +21,14 @@ async function checkLoginDetails() {
         })
             .then(response => response.text())
             .then(data => {
-                // if (data.email == email) {
-                //     if (data.password == pass) {
-                //         location.href = "../templates/index.html";
-                //     } else {
-                //         alert("password wrong");
-                //     }
-                // }
 
                 console.log(data);
                 if(data == "success"){
                     
                     location.href = "../templates/index.html";
                 }else{
-                    alert("password wrong");
+                    // alert("password wrong");
+                    swal("Alert", "Password is wrong", "error");
                 }
 
             })
@@ -41,7 +37,8 @@ async function checkLoginDetails() {
             })
 
     } else {
-        alert("Email not registered kindly signup");
+        // alert("Email not registered kindly signup");
+        swal("Alert", "Email not registered kindly signup", "error");
     }
 }
 
@@ -64,3 +61,5 @@ async function checkEmailExists() {
 
     return bool;
 }
+
+

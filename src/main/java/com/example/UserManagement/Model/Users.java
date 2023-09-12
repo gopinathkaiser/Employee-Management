@@ -1,9 +1,6 @@
 package com.example.UserManagement.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -14,6 +11,7 @@ import java.time.LocalDate;
 public class Users {
 
     @Id
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Column
@@ -31,12 +29,24 @@ public class Users {
    @Column
    private String address;
 
-   @Column(nullable = true)
+   @Column
    private Timestamp createDate;
 
     @Column
     private Timestamp modifyDate;
 
+    @ManyToOne(cascade =  CascadeType.REMOVE)
+    @JoinColumn(name = "fk_role_id")
+    private Role role;
+
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public Users() {
 

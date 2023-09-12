@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../static/css/RegisterStyle.css" />
+    <!-- <script src="../static/javascript/script.js"></script> -->
+
     <title>Register</title>
 </head>
 
@@ -103,11 +105,21 @@
 
                         </td>
                     </tr>
-                    <tr>
+                    
+                    <tr id="table-role">
+                        <td>
+                            <label for="role">Role </label>
 
-                        <td colspan="2"><span id="warn-address">Enter valid address</span></td>
-
-                    </tr>
+                        </td>
+                        <td>
+                            <input type="radio" id="Admin" name="role" value="Admin">
+                            <label for="Admin" class="role">Admin</label><br>
+                            <input type="radio" id="Dev" name="role" value="Developer" >
+                            <label for="Dev" class="role">Developer</label> <br>
+                            <input type="radio" id="Manager" name="role" value="Manager">
+                            <label for="Manager" class="role">Manager</label><br><br>
+                        </td>
+                    </tr>   
                     <tr>
 
                         <td colspan="2" class="submit-edit">
@@ -125,6 +137,7 @@
 
     <script src="../static/javascript/script.js"></script>
     <script src="../static/javascript/test.js"></script>
+    <script  src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" ></script>
 
 </body>
 

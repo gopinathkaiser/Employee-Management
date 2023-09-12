@@ -1,5 +1,6 @@
 package com.example.UserManagement.Repository;
 
+import com.example.UserManagement.Model.Role;
 import com.example.UserManagement.Model.UserLogin;
 import com.example.UserManagement.Model.Users;
 import org.springframework.data.domain.Page;

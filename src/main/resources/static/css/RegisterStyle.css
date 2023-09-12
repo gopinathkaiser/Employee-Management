@@ -87,10 +87,21 @@ span{
 }
 
 #warn-email, #warn-fname, #warn-lname, #warn-mobile,#warn-dob,#warn-address{
-    /* text-align: right; */
+    
     visibility: hidden;
 }
 
 .submit-edit{
     text-align: center;
 }
+
+.role:hover{
+    cursor: pointer;
+}
+
+
+
+/* #table-role{
+    padding: 0;
+    margin: 0;
+} */

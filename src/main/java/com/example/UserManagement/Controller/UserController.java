@@ -1,5 +1,7 @@
 package com.example.UserManagement.Controller;
 
+import com.example.UserManagement.DTO.UserAndRoleDTO;
+import com.example.UserManagement.Model.Role;
 import com.example.UserManagement.Model.Users;
 import com.example.UserManagement.Service.UserService;
 
@@ -9,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 @CrossOrigin
@@ -21,11 +22,10 @@ public class UserController {
     UserService userService;
 
     @PostMapping
-    public Users insertData(@RequestBody Users user){
-        Timestamp ts = new Timestamp(new Date().getTime());
-        user.setModifyDate(ts);
-        user.setCreateDate(ts);
-        return userService.addUser(user);
+    public ResponseEntity<String> insertData(@RequestBody UserAndRoleDTO userAndRoleDTO){
+
+        userService.addUser(userAndRoleDTO);
+        return ResponseEntity.ok("saved");
 
     }
 

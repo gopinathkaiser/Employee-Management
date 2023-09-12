@@ -1,6 +1,11 @@
+var filerefjs = document.createElement('script');
+filerefjs.setAttribute("type", "text/javascript");
+filerefjs.setAttribute("src", "https://unpkg.com/sweetalert/dist/sweetalert.min.js");
+
 let page = 0;
 let max = 0;
 async function validateEmail() {
+
     let email = document.getElementById("email");
     console.log("validate email called");
     let emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -19,14 +24,16 @@ async function validateEmail() {
             })
     }
     if (checkForAlert == 1) {
-        alert("Enter a valid email");
+        // alert("Enter a valid email");
+        swal("Alert", "Enter a valid email", "error");
         document.getElementById("warn-email").style.visibility = 'visible';
         email.focus();
         return false;
     }
     else {
         if (checkForAlert == 2) {
-            alert("Email already Exists");
+            // alert("Email already Exists");
+            swal("Alert", "Email already Exists", "error");
             document.getElementById("warn-email").style.visibility = 'visible';
             email.focus();
             return false;
@@ -41,6 +48,7 @@ async function validateEmail() {
 }
 
 function validateFirstName() {
+
     let firstName = document.getElementById(("fname"));
     let fnameRegex = /^[A-Za-z\s]*$/;
     if (fnameRegex.test(firstName.value)) {
@@ -48,7 +56,10 @@ function validateFirstName() {
 
         return true;
     }
-    alert("First name should contain only alphabets");
+    // swal.fire("enter valid num");
+    swal("Alert", "First name should contain only alphabets", "error");
+
+    // alert("First name should contain only alphabets");
     document.getElementById("warn-fname").style.visibility = 'visible';
 
     firstName.focus();
@@ -63,7 +74,9 @@ function validateLastName() {
 
         return true;
     }
-    alert("Last name should contain only alphabets");
+    swal("Alert", "Last name should contain only alphabets", "error");
+
+    // alert("Last name should contain only alphabets");
     document.getElementById("warn-lname").style.visibility = 'visible';
 
     lastName.focus();
@@ -76,7 +89,9 @@ function validateDob() {
     let todayDate = new Date();
 
     if (new Date(dob.value).getTime() >= todayDate.getTime()) {
-        alert("The Date must be lesser or Equal to today date");
+        swal("Alert", "The Date must be lesser or Equal to today date", "error");
+
+        // alert("The Date must be lesser or Equal to today date");
         document.getElementById("warn-dob").style.visibility = 'visible';
 
         dob.focus();
@@ -94,6 +109,8 @@ function validateMobileNum() {
         return true;
     }
     alert("Enter valid number");
+    swal("Alert", "Enter valid number", "error");
+
     document.getElementById("warn-mobile").style.visibility = 'visible';
 
     mobileNum.focus();
@@ -104,13 +121,19 @@ function validateMobileNum() {
 async function checkAllValidation() {
     event.preventDefault();
     const formData = {
-        "email": document.getElementById("email").value,
-        "fname": document.getElementById("fname").value,
-        "lname": document.getElementById("lname").value,
-        "mobile": document.getElementById("mobile").value,
-        "dob": document.getElementById("dob").value,
-        "address": document.getElementById("address").value
+        "users": {
+            "email": document.getElementById("email").value,
+            "fname": document.getElementById("fname").value,
+            "lname": document.getElementById("lname").value,
+            "mobile": document.getElementById("mobile").value,
+            "dob": document.getElementById("dob").value,
+            "address": document.getElementById("address").value,
+            "role": {
+                "roleName": document.querySelector('input[name="role"]:checked').value
+            }
+        },
     };
+    console.log(formData);
 
     if (document.getElementById("email").disabled == true) {
 
@@ -122,9 +145,9 @@ async function checkAllValidation() {
                 },
                 body: JSON.stringify(formData)
             })
-                .then(response => response.json())
+                .then(response => response.text())
                 .then(data => {
-                    alert("Data modified successfully");
+                    swal("Alert", "Data modified successfully", "success");
                 })
                 .catch(error => {
                     console.log("error inserting after edit", error);
@@ -143,7 +166,8 @@ async function checkAllValidation() {
             })
                 .then(response => response.json())
                 .then(data => {
-                    alert("data added successfully");
+                    swal("Alert", "Data inserted successfully", "success");
+                    // swal("Data added successfully");
                     document.getElementById("form-reset").reset();
                 })
 
@@ -158,77 +182,9 @@ async function checkAllValidation() {
 }
 
 
-// async function displayUserData() {
-
-//     let tableMain = document.getElementById("table");
-//     tableMain.innerHTML = "";
-
-//     tableMain.innerHTML = "<tr class='table-head'>\n" +
-
-//         "                    <th>Email</th>\n" +
-//         "                    <th>First Name</th>\n" +
-//         "                    <th>Last Name</th>\n" +
-//         "                    <th>Mobile</th>\n" +
-//         "                    <th>Date of Birth</th>\n" +
-//         "                    <th>Address</th>\n" +
-//         "                    <th>Action</th>\n" +
-
-//         "                </tr>";
-//     await fetch('http://localhost:8080/user/', {
-//         method: 'GET'
-//     })
-
-//         .then(response => response.json())
-//         .then(responseData => {
-
-//             let tableMain = document.getElementsByClassName("table");
-//             responseData.forEach(reponseDataItem => {
-//                 let tableRow = document.createElement("tr");
-//                 let parsedDate;
-//                 let key = ["email", "fname", "lname", "mobile", "dob", "address"];
-//                 for (let i = 0; i < 6; i++) {
-//                     let tableData = document.createElement("td");
-//                     if (key[i] == "dob") {
-//                         const parseArray = reponseDataItem[key[i]].split("-");
-//                         parsedDate = parseArray[2] + "-" + parseArray[1] + "-" + parseArray[0];
-//                     } else {
-//                         parsedDate = reponseDataItem[key[i]];
-//                     }
-//                     let tableDataText = document.createTextNode(parsedDate);
-//                     tableData.appendChild(tableDataText);
-//                     tableRow.appendChild(tableData);
-//                 }
-//                 let tableData = document.createElement("td");
-//                 let tableButtonEdit = document.createElement("button");
-//                 tableButtonEdit.textContent = "EDIT";
-//                 tableButtonEdit.onclick = function () {
-//                     editData(reponseDataItem["email"]);
-//                 }
-//                 tableData.appendChild(tableButtonEdit);
-//                 let tableButtonDelete = document.createElement("button");
-//                 tableButtonDelete.textContent = "DELETE";
-//                 tableButtonDelete.onclick = function () {
-//                     deleteData(reponseDataItem["email"]);
-//                 }
-//                 tableData.appendChild(tableButtonDelete);
-
-
-//                 tableRow.appendChild(tableData);
-
-//                 document.getElementById("table").appendChild(tableRow);
-
-//             })
-
-//         })
-//         .catch(error => {
-//             console.log("error", error);
-//         })
-// }
-
 
 async function editData(email) {
-    console.log("edit button clicked");
-    console.log("before reload");
+
     location = 'Register.html';
     console.log("replaced location");
 
@@ -280,7 +236,7 @@ function getEditData() {
 
 function displayOnForm(userData) {
     console.log("hello from display from", userData);
-    
+
     document.getElementById("clear-button").style.display = 'none';
     document.getElementById("email").value = userData.email;
     document.getElementById("email").disabled = true;
@@ -289,6 +245,15 @@ function displayOnForm(userData) {
     document.getElementById("mobile").value = userData.mobile;
     document.getElementById("dob").value = userData.dob;
     document.getElementById("address").value = userData.address;
+    if (userData.role != null) {
+        if (userData.role.roleName == "Developer") document.getElementById("Dev").checked = true;
+        else if (userData.role.roleName == "Admin") document.getElementById("Admin").checked = true;
+
+        else document.getElementById("Manager").checked = true;
+    }
+    else {
+        document.getElementById("Manager").checked = true;
+    }
 
     document.getElementById("register-header").innerHTML = "EDIT DATA";
     console.log("dataaaaaaaaaa");
@@ -382,7 +347,7 @@ async function diplayData(page) {
 
         .then((response) => response.json())
         .then(responseData => {
-
+            console.log("response data", responseData);
             let tableMain = document.getElementsByClassName("table");
             let tableBody = document.createElement("tbody");
             responseData.forEach(reponseDataItem => {
@@ -434,6 +399,7 @@ async function diplayData(page) {
 function nextPage() {
     if ((page + 1) < max) {
         page++;
+
         document.getElementById("currentPage").textContent = page;
         displayUserData(page);
     }
@@ -448,7 +414,7 @@ function prevPage() {
     }
 }
 
-function clearData(){
+function clearData() {
     document.getElementById("warn-dob").style.visibility = 'hidden';
     document.getElementById("warn-mobile").style.visibility = 'hidden';
     document.getElementById("warn-fname").style.visibility = 'hidden';

@@ -1,9 +1,13 @@
 package com.example.UserManagement.Service;
 
+import com.example.UserManagement.DTO.UserAndRoleDTO;
+import com.example.UserManagement.Exception.ResourceNotFoundException;
+import com.example.UserManagement.Exception.RoleNotFoundException;
+import com.example.UserManagement.Model.Role;
 import com.example.UserManagement.Model.Users;
+import com.example.UserManagement.Repository.RoleRepository;
 import com.example.UserManagement.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,8 +23,23 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public Users addUser(Users user){
-        return userRepository.save(user);
+    @Autowired
+    RoleRepository roleRepository;
+
+
+
+    public void addUser(UserAndRoleDTO userAndRoleDTO){
+            Users users = userAndRoleDTO.getUsers();
+            Timestamp ts = new Timestamp(new Date().getTime());
+            users.setModifyDate(ts);
+            users.setCreateDate(ts);
+            Role role = userAndRoleDTO.getUsers().getRole();
+            Role role1 = roleRepository.findByRoleName(role.getRoleName());
+            if(role1==null){
+                 throw new RoleNotFoundException("Role not found");
+            }
+            users.setRole(role1);
+            userRepository.save(users);
     }
 
     public List<Users> findByModified(Pageable pageable){
@@ -56,10 +75,7 @@ public class UserService {
     }
 
     public boolean checkEmail(String email){
-        if(userRepository.existsById(email)){
-            return true;
-        }
-        return false;
+        return userRepository.existsById(email);
     }
 
     public long findCount(){
