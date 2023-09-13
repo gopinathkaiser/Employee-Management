@@ -1,14 +1,16 @@
 package com.example.UserManagement.Controller;
 
+import com.beust.ah.A;
+import com.example.UserManagement.DTO.LoginRequestDTO;
+import com.example.UserManagement.DTO.SignUpRequestDTO;
 import com.example.UserManagement.Model.UserSignup;
-import com.example.UserManagement.Model.Users;
-import com.example.UserManagement.Repository.UserSignupRepo;
 import com.example.UserManagement.Service.SignupService;
+import com.example.UserManagement.common.ApiResponse;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
@@ -17,31 +19,36 @@ import java.util.Optional;
 public class SignupController {
 
     @Autowired
-    SignupService signupService;
+    private SignupService signupService;
 
     @PostMapping("/")
-    public UserSignup addUser(@RequestBody UserSignup userData){
-        String password = userData.getPassword();
+    public ResponseEntity<ApiResponse> addUser(@RequestBody SignUpRequestDTO signUpRequestDTO){
+        String password = signUpRequestDTO.getPassword();
         String saltedPassword = BCrypt.gensalt(12);
         String hashedPassword = BCrypt.hashpw(password,saltedPassword);
-        userData.setPassword(hashedPassword);
-        return this.signupService.addUser(userData);
+        signUpRequestDTO.setPassword(hashedPassword);
+//        UserSignup user = signupService.addUser(signupService);
+        ApiResponse apiResponse = signupService.addUser(signUpRequestDTO);
+        return ResponseEntity
+                .status(apiResponse.getStatus())
+                .body(apiResponse);
     }
 
     @GetMapping("/userExists/{email}")
     public boolean checkUser(@PathVariable String email){
 
-        return this.signupService.checkUser(email);
+        return signupService.checkUser(email);
     }
 
     @PostMapping ("/validate")
-    public String checkData(@RequestBody UserSignup userSignup){
-        Optional<UserSignup> response = signupService.checkData(userSignup.getEmail());
-        if(BCrypt.checkpw(userSignup.getPassword(),response.get().getPassword())){
-            return "success";
-        }
-        return "failure";
+    public ResponseEntity<ApiResponse> checkData(@RequestBody LoginRequestDTO loginRequestDTO){
+
+
+        ApiResponse apiResponse = signupService.loginValidate(loginRequestDTO);
+
+        return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
 
     }
+
 
 }

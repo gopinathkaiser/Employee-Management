@@ -1,8 +1,13 @@
 package com.example.UserManagement.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.sql.Timestamp;
+
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class UserSignup {
 
@@ -45,4 +50,12 @@ public class UserSignup {
     private String name;
 
     private String password;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    private Timestamp createdDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    private Timestamp modifyDate;
 }

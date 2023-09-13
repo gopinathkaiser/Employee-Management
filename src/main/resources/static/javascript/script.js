@@ -1,13 +1,11 @@
-var filerefjs = document.createElement('script');
-filerefjs.setAttribute("type", "text/javascript");
-filerefjs.setAttribute("src", "https://unpkg.com/sweetalert/dist/sweetalert.min.js");
+
 
 let page = 0;
 let max = 0;
+
 async function validateEmail() {
 
     let email = document.getElementById("email");
-    console.log("validate email called");
     let emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     let checkForAlert = 1;
     if (emailRegex.test(email.value)) {
@@ -25,7 +23,8 @@ async function validateEmail() {
     }
     if (checkForAlert == 1) {
         // alert("Enter a valid email");
-        swal("Alert", "Enter a valid email", "error");
+        // swal("Alert", "Enter a valid email", "error");
+        swal("Alert", "Enter valid email", "warning");
         document.getElementById("warn-email").style.visibility = 'visible';
         email.focus();
         return false;
@@ -57,7 +56,7 @@ function validateFirstName() {
         return true;
     }
     // swal.fire("enter valid num");
-    swal("Alert", "First name should contain only alphabets", "error");
+    swal("Alert", "First name should contain only alphabets", "warning");
 
     // alert("First name should contain only alphabets");
     document.getElementById("warn-fname").style.visibility = 'visible';
@@ -74,7 +73,7 @@ function validateLastName() {
 
         return true;
     }
-    swal("Alert", "Last name should contain only alphabets", "error");
+    swal("Alert", "Last name should contain only alphabets", "warning");
 
     // alert("Last name should contain only alphabets");
     document.getElementById("warn-lname").style.visibility = 'visible';
@@ -89,7 +88,7 @@ function validateDob() {
     let todayDate = new Date();
 
     if (new Date(dob.value).getTime() >= todayDate.getTime()) {
-        swal("Alert", "The Date must be lesser or Equal to today date", "error");
+        swal("Alert", "The Date must be lesser or Equal to today date", "warning");
 
         // alert("The Date must be lesser or Equal to today date");
         document.getElementById("warn-dob").style.visibility = 'visible';
@@ -108,8 +107,7 @@ function validateMobileNum() {
 
         return true;
     }
-    alert("Enter valid number");
-    swal("Alert", "Enter valid number", "error");
+    swal("Alert", "Enter valid number", "warning");
 
     document.getElementById("warn-mobile").style.visibility = 'visible';
 
@@ -147,7 +145,7 @@ async function checkAllValidation() {
             })
                 .then(response => response.text())
                 .then(data => {
-                    swal("Alert", "Data modified successfully", "success");
+                    swal("Success", "Data modified successfully", "success");
                 })
                 .catch(error => {
                     console.log("error inserting after edit", error);
@@ -164,9 +162,9 @@ async function checkAllValidation() {
                 },
                 body: JSON.stringify(formData)
             })
-                .then(response => response.json())
+                .then(response => response.text())
                 .then(data => {
-                    swal("Alert", "Data inserted successfully", "success");
+                    swal("Success", "Data inserted successfully", "success");
                     // swal("Data added successfully");
                     document.getElementById("form-reset").reset();
                 })
@@ -181,8 +179,6 @@ async function checkAllValidation() {
     }
 }
 
-
-
 async function editData(email) {
 
     location = 'Register.html';
@@ -194,9 +190,24 @@ async function editData(email) {
 
 async function deleteData(email) {
 
-    if (!confirm("Are you sure")) {
-        return false;
-    }
+    // if (!confirm("Are you sure")) {
+    //     return false;
+    // }
+    let booleanType = false;
+    await swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (!willDelete) {
+          booleanType = true;
+        } 
+      });
+
+      if(booleanType) return false;
 
     await fetch(`http://localhost:8080/user/${email}`, {
         method: 'DELETE'
@@ -381,12 +392,18 @@ async function diplayData(page) {
                     deleteData(reponseDataItem["email"]);
                 }
                 tableData.appendChild(tableButtonDelete);
-
-
+                let tableButtonIcon = document.createElement("button");
+                tableButtonIcon.setAttribute("title",reponseDataItem.role.roleName);
+                tableButtonIcon.textContent = "i";
+                tableButtonIcon.onclick = function () {
+                    displayIcon(reponseDataItem.role.roleName,reponseDataItem.createDate,reponseDataItem.modifyDate);
+                }
+                tableData.appendChild(tableButtonIcon);
                 tableRow.appendChild(tableData);
                 tableBody.appendChild(tableRow);
 
                 document.getElementById("table").appendChild(tableBody);
+                
 
             })
 
@@ -397,7 +414,7 @@ async function diplayData(page) {
 }
 
 function nextPage() {
-    if ((page + 1) < max) {
+    if ((page +1) < max) {
         page++;
 
         document.getElementById("currentPage").textContent = page;
@@ -424,3 +441,27 @@ function clearData() {
 }
 
 
+function displayIcon(role,createdAt,modifiedAt){
+    swal("Role :  " + role + "\n" + "Created at :  " + new Date(createdAt).toString().slice(0,25) + "\n" + "Modified at :  " + new Date(modifiedAt).toString().slice(0,25));
+}
+
+
+async function checkLogout(){
+    let booleanType = false;
+     await swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willLogout) => {
+        if (!willLogout) {
+          booleanType = true;
+        } 
+      });
+
+      console.log(booleanType);
+      if(booleanType) return true;
+
+      return false;
+}

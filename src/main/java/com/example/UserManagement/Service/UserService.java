@@ -9,7 +9,9 @@ import com.example.UserManagement.Repository.RoleRepository;
 import com.example.UserManagement.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -17,8 +19,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.*;
 
+//@EnableJpaAuditing
 @Service
-public class UserService {
+public class UserService  {
 
     @Autowired
     UserRepository userRepository;
@@ -26,13 +29,11 @@ public class UserService {
     @Autowired
     RoleRepository roleRepository;
 
-
-
     public void addUser(UserAndRoleDTO userAndRoleDTO){
             Users users = userAndRoleDTO.getUsers();
-            Timestamp ts = new Timestamp(new Date().getTime());
-            users.setModifyDate(ts);
-            users.setCreateDate(ts);
+//            Timestamp ts = new Timestamp(new Date().getTime());
+//            users.setModifyDate(ts);
+//            users.setCreateDate(ts);
             Role role = userAndRoleDTO.getUsers().getRole();
             Role role1 = roleRepository.findByRoleName(role.getRoleName());
             if(role1==null){
@@ -57,21 +58,24 @@ public class UserService {
         return ResponseEntity.ok().body(users);
     }
 
-    public Users insertAfterDataEdited(Users user){
-        Optional<Users> users = userRepository.findById(user.getEmail());
-        Timestamp ts = new Timestamp(new Date().getTime());
-
+    public void insertAfterDataEdited(UserAndRoleDTO userAndRoleDTO){
+        Optional<Users> users = userRepository.findById(userAndRoleDTO.getUsers().getEmail());
         Users userData = users.get();
 
-        userData.setFname(user.getFname());
-        userData.setLname(user.getLname());
-        userData.setMobile(user.getMobile());
-        userData.setDob(user.getDob());
-        userData.setAddress(user.getAddress());
-        userData.setModifyDate(ts);
+        userData.setFname(userAndRoleDTO.getUsers().getFname());
+        userData.setLname(userAndRoleDTO.getUsers().getLname());
+        userData.setMobile(userAndRoleDTO.getUsers().getMobile());
+        userData.setDob(userAndRoleDTO.getUsers().getDob());
+        userData.setAddress(userAndRoleDTO.getUsers().getAddress());
+        Role role = userAndRoleDTO.getUsers().getRole();
+        Role role1 = roleRepository.findByRoleName(role.getRoleName());
+        if(role1==null){
+            throw new RoleNotFoundException("Role not found");
+        }
+        userData.setRole(role1);
+
         userRepository.save(userData);
 
-        return user;
     }
 
     public boolean checkEmail(String email){
@@ -82,5 +86,6 @@ public class UserService {
 
         return userRepository.count();
     }
+
 
 }

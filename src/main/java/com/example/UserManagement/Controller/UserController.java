@@ -21,6 +21,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
     @PostMapping
     public ResponseEntity<String> insertData(@RequestBody UserAndRoleDTO userAndRoleDTO){
 
@@ -37,13 +38,14 @@ public class UserController {
 
     @GetMapping("/{email}")
     public ResponseEntity<Users> displayDataFetch(@PathVariable String email){
-        System.out.println(userService.displayDataFetch(email));
+//        System.out.println(userService.displayDataFetch(email));
         return userService.displayDataFetch(email);
     }
 
     @PutMapping
-    public Users insertAfterEditData(@RequestBody Users user){
-        return userService.insertAfterDataEdited(user);
+    public ResponseEntity<String> insertAfterEditData(@RequestBody UserAndRoleDTO userAndRoleDTO){
+         userService.insertAfterDataEdited(userAndRoleDTO);
+         return ResponseEntity.ok("Edited successfully");
     }
 
 

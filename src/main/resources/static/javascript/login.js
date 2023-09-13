@@ -1,4 +1,3 @@
-const { default: swal } = require("sweetalert");
 
 async function checkLoginDetails() {
     event.preventDefault();
@@ -37,8 +36,8 @@ async function checkLoginDetails() {
             })
 
     } else {
-        // alert("Email not registered kindly signup");
-        swal("Alert", "Email not registered kindly signup", "error");
+         alert("Email not registered kindly signup");
+        // swal("Alert", "Email not registered kindly signup", "error");
     }
 }
 

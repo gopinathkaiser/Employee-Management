@@ -1,6 +1,9 @@
 package com.example.UserManagement.Model;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
@@ -8,6 +11,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "Users")
+@EntityListeners(AuditingEntityListener.class)
 public class Users {
 
     @Id
@@ -29,13 +33,17 @@ public class Users {
    @Column
    private String address;
 
+   @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
    @Column
    private Timestamp createDate;
 
+   @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
     @Column
     private Timestamp modifyDate;
 
-    @ManyToOne(cascade =  CascadeType.REMOVE)
+    @ManyToOne(cascade =  CascadeType.DETACH)
     @JoinColumn(name = "fk_role_id")
     private Role role;
 
