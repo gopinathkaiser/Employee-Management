@@ -10,6 +10,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -30,7 +32,10 @@ public class SignupService {
         userSignup = userSignupRepo.save(userSignup);
 //        return userSignupRepo.save(user);
          apiResponse.setData(userSignup);
-
+        String token = jwtUtils.generateJwt(userSignup);
+        Map<String,Object> data = new HashMap<>();
+        data.put("accessToken", token);
+        apiResponse.setData(data);
         return apiResponse;
     }
 
@@ -54,7 +59,9 @@ public class SignupService {
             if (BCrypt.checkpw(loginRequestDTO.getPassword(), response.get().getPassword())) {
 //                apiResponse.setData("User Logged in");
                 String token = jwtUtils.generateJwt(response.get());
-                apiResponse.setData(token);
+                Map<String,Object> data = new HashMap<>();
+                data.put("accessToken", token);
+                apiResponse.setData(data);
             } else {
                 apiResponse.setData("Password wrong");
             }
