@@ -4,6 +4,7 @@ import com.example.UserManagement.DTO.LoginRequestDTO;
 import com.example.UserManagement.DTO.SignUpRequestDTO;
 import com.example.UserManagement.Model.UserSignup;
 import com.example.UserManagement.Repository.UserSignupRepo;
+import com.example.UserManagement.Util.JwtUtils;
 import com.example.UserManagement.common.ApiResponse;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class SignupService {
 
     @Autowired
     private UserSignupRepo userSignupRepo;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     public ApiResponse addUser(SignUpRequestDTO signUpRequestDTO){
         ApiResponse apiResponse = new ApiResponse();
@@ -44,12 +48,13 @@ public class SignupService {
     public ApiResponse loginValidate(LoginRequestDTO loginRequestDTO) {
         ApiResponse apiResponse = new ApiResponse();
 
-        System.out.println(loginRequestDTO.getEmail());
         Optional<UserSignup> response;
         try {
             response = userSignupRepo.findById(loginRequestDTO.getEmail());
             if (BCrypt.checkpw(loginRequestDTO.getPassword(), response.get().getPassword())) {
-                apiResponse.setData("User Logged in");
+//                apiResponse.setData("User Logged in");
+                String token = jwtUtils.generateJwt(response.get());
+                apiResponse.setData(token);
             } else {
                 apiResponse.setData("Password wrong");
             }
