@@ -135,7 +135,7 @@ async function checkAllValidation() {
             }
         },
     };
-    console.log(formData);
+    // console.log(formData);
     let cookie = getCookie("UserCookie");
     if (document.getElementById("email").disabled == true) {
 
@@ -284,7 +284,7 @@ function displayOnForm(userData) {
     }
 
     document.getElementById("register-header").innerHTML = "EDIT DATA";
-    console.log("dataaaaaaaaaa");
+    // console.log("dataaaaaaaaaa");
 
     const formData = {
         "email": document.getElementById("email").value,
@@ -341,12 +341,13 @@ function displayOnForm(userData) {
 function getCookie(name) {
     let cookies = document.cookie.slice(11);
     // alert(cookies);
-    for (let i = 0; i < cookies.length; i++) {
-        let cookie = cookies[i].trim();
-        if (cookie.startsWith(name + "=")) {
-            return cookie.substring(name.length + 1, cookie.length);
-        }
-    }
+    // for (let i = 0; i < cookies.length; i++) {
+    //     let cookie = cookies[i].trim();
+    //     if (cookie.startsWith(name + "=")) {
+    //         return cookie.substring(name.length + 1, cookie.length);
+    //     }
+    // }
+    ;
 
     return cookies;
 }
@@ -365,7 +366,7 @@ async function displayUserData() {
 
         location.href = "login.html";
     }
-    console.log("1sr");
+    // console.log("1sr");
     // alert(cookie);
     await fetch(`http://localhost:8080/user/countData`, {
 
@@ -375,9 +376,9 @@ async function displayUserData() {
     })
         .then(response => response.json())
         .then(responseCount => {
-            console.log(responseCount + "total data");
+            // console.log(responseCount + "total data");
             max = Math.ceil(responseCount / 10);
-            console.log(max);
+            // console.log(max);
 
         })
         .catch(err => {
@@ -403,7 +404,7 @@ async function displayUserData() {
 }
 
 async function diplayData(page, cookie) {
-    console.log("2sr");
+    // console.log("2sr");
 
     // alert(cookie + "cookieeeeeeee");
     console.log(cookie + "cookiee");
@@ -416,7 +417,7 @@ async function diplayData(page, cookie) {
 
         .then((response) => response.json())
         .then(responseData => {
-            console.log("response data", responseData);
+            // console.log("response data", responseData);
             let tableMain = document.getElementsByClassName("table");
             let tableBody = document.createElement("tbody");
             responseData.forEach(reponseDataItem => {
@@ -427,7 +428,7 @@ async function diplayData(page, cookie) {
                     let tableData = document.createElement("td");
                     if (key[i] == "dob") {
                         const parseArray = reponseDataItem[key[i]].split("-");
-                        console.log(parseArray);
+                        // console.log(parseArray);
                         parsedDate = parseArray[2] + "-" + parseArray[1] + "-" + parseArray[0];
                     } else {
 
@@ -536,29 +537,31 @@ function setCookie(name, token) {
     document.cookie = cookie;
 }
 
-async function Logout() {
-    // let booleanType = false;
-    // await swal({
-    //     title: "Are you sure?",
-    //     icon: "warning",
-    //     buttons: true,
-    //     dangerMode: true,
-    // })
-    //     .then((willLogout) => {
-    //         if (willLogout) {
-    //             booleanType = true;
-    //         }
-    //     });
-    // if (booleanType) {
-    //     setCookie("UserCookie", "");
-    //     return booleanType;
-    // }
+ function Logout() {
+    let booleanType = false;
+     swal({
+        title: "Are you sure?",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willLogout) => {
+            if (willLogout) {
+                setCookie("UserCookie", "");
+                location.href='login.html'
+                booleanType = true;
+            }
+        });
 
-       let booleanType =   confirm("Are u sure");
-       if(booleanType){
-        setCookie("UserCookie","");
+    if (booleanType) {
         return booleanType;
-       }
+    }
+
+    //    let booleanType =   confirm("Are u sure");
+    //    if(booleanType){
+    //     setCookie("UserCookie","");
+    //     return booleanType;
+    //    }
 
     return false;
 
