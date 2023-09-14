@@ -9,7 +9,7 @@ async function validateEmail() {
     let emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     let checkForAlert = 1;
     if (emailRegex.test(email.value)) {
-        await fetch(`http://localhost:8080/user/verify/${email.value}`,{
+        await fetch(`http://localhost:8080/user/verify/${email.value}`, {
             headers: new Headers({
                 'Authorization': `${cookie}`
             }),
@@ -144,7 +144,7 @@ async function checkAllValidation() {
                 method: 'PUT',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization' : cookie
+                    'Authorization': cookie
                 },
                 body: JSON.stringify(formData)
             })
@@ -164,7 +164,7 @@ async function checkAllValidation() {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization' : cookie
+                    'Authorization': cookie
                 },
                 body: JSON.stringify(formData)
             })
@@ -240,7 +240,7 @@ function getEditData() {
     let sessionEmailData = sessionStorage.getItem("email");
     if (sessionEmailData) {
 
-        fetch(`http://localhost:8080/user/${sessionEmailData}`,{
+        fetch(`http://localhost:8080/user/${sessionEmailData}`, {
             headers: new Headers({
                 'Authorization': `${cookie}`
             }),
@@ -341,10 +341,10 @@ function displayOnForm(userData) {
 function getCookie(name) {
     let cookies = document.cookie.slice(11);
     // alert(cookies);
-    for(let i=0;i<cookies.length;i++){
+    for (let i = 0; i < cookies.length; i++) {
         let cookie = cookies[i].trim();
-        if(cookie.startsWith(name + "=")){
-            return cookie.substring(name.length+1 ,cookie.length);
+        if (cookie.startsWith(name + "=")) {
+            return cookie.substring(name.length + 1, cookie.length);
         }
     }
 
@@ -355,23 +355,23 @@ async function displayUserData() {
     let cookie = getCookie("UserCookie");
     console.log("cokiee", typeof cookie);
     // alert(cookie);
-    if(cookie == ""){
+    if (cookie == "") {
         // swal("Login to continue");
         await swal({
             icon: 'error',
             title: 'Oops...',
             text: 'Login to continue',
-          })
+        })
 
         location.href = "login.html";
     }
     console.log("1sr");
     // alert(cookie);
     await fetch(`http://localhost:8080/user/countData`, {
-      
+
         headers: new Headers({
             'Authorization': `${cookie}`
-        }), 
+        }),
     })
         .then(response => response.json())
         .then(responseCount => {
@@ -397,7 +397,7 @@ async function displayUserData() {
         "                    <th>Action</th>\n" +
 
         "                </tr>";
-        await diplayData(page, cookie);
+    await diplayData(page, cookie);
 
 
 }
@@ -411,7 +411,7 @@ async function diplayData(page, cookie) {
     await fetch(`http://localhost:8080/user/${page}/${10}`, {
         headers: new Headers({
             'Authorization': `${cookie}`
-        }), 
+        }),
     })
 
         .then((response) => response.json())
@@ -529,21 +529,37 @@ function setCookie(name, token) {
     let cookie = name + "=" + encodeURIComponent(token);
 
     let expiration = new Date();
-    expiration.setTime(expiration.getTime() + 30 * 60 * 1000); 
+    expiration.setTime(expiration.getTime() + 30 * 60 * 1000);
 
     cookie += "; expires=" + expiration.toUTCString();
 
     document.cookie = cookie;
 }
 
-function Logout(){
-    
-   let booleanType =   confirm("Are u sure");
-   if(booleanType){
-    setCookie("UserCookie","");
-    return booleanType;
-   }
+async function Logout() {
+    // let booleanType = false;
+    // await swal({
+    //     title: "Are you sure?",
+    //     icon: "warning",
+    //     buttons: true,
+    //     dangerMode: true,
+    // })
+    //     .then((willLogout) => {
+    //         if (willLogout) {
+    //             booleanType = true;
+    //         }
+    //     });
+    // if (booleanType) {
+    //     setCookie("UserCookie", "");
+    //     return booleanType;
+    // }
 
-   return false;
-    
+       let booleanType =   confirm("Are u sure");
+       if(booleanType){
+        setCookie("UserCookie","");
+        return booleanType;
+       }
+
+    return false;
+
 }

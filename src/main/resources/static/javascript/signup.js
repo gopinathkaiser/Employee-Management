@@ -56,7 +56,7 @@ async function checkEmailExists() {
         .then(data => {
             console.log(data);
             if (data) {
-                alert("Email already exists");
+                swal("Alert", "Email already exists", "error");
                 bool = false;
             }
         })
@@ -74,7 +74,8 @@ function checkReEnteredPassword() {
     if (password == reEnterPassword.value) {
         return true;
     } else {
-        alert("Password did not match");
+        // alert("Password did not match");
+        swal("Alert", "Password did not match", "error");
         reEnterPassword.value = '';
         reEnterPassword.focus();
         return false;
@@ -90,7 +91,8 @@ function validatePassword(){
         return true;
     }
 
-    alert("Password should have 8 to 16 characters including a number,a special character,a lower and upper case letters");
+    //alert("Password should have 8 to 16 characters including a number,a special character,a lower and upper case letters");
+    swal("Alert", "Password should have 8 to 16 characters including a number,a special character,a lower and upper case letters", "error");
     password.focus();
     return false;
 }
@@ -103,7 +105,9 @@ async function validateEmail(){
         return await checkEmailExists();;
     }
 
-    alert("Enter valid email");
+    // alert("Enter valid email");
+    swal("warning", "Enter valid email", "error");
+
     email.focus();
     return false;
 

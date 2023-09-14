@@ -28,7 +28,7 @@ async function checkLoginDetails() {
                      location.href = "../templates/index.html";
 
                 }else{
-                    alert("password wrong");
+                    // alert("password wrong");
                     swal("Alert", "Password is wrong", "error");
                 }
 
@@ -38,8 +38,8 @@ async function checkLoginDetails() {
             })
 
     } else {
-         alert("Email not registered kindly signup");
-        // swal("Alert", "Email not registered kindly signup", "error");
+        //  alert("Email not registered kindly signup");
+         swal("Alert", "Email not registered kindly signup", "error");
     }
 }
 
