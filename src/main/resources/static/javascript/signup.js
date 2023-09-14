@@ -1,3 +1,16 @@
+function setCookie(name, token) {
+    let cookie = name + "=" + encodeURIComponent(token);
+
+    let expiration = new Date();
+    expiration.setTime(expiration.getTime() + 30 * 60 * 1000); 
+
+    cookie += "; expires=" + expiration.toUTCString();
+
+    document.cookie = cookie;
+}
+
+
+
 async function updateSignup() {
     event.preventDefault();
     const formData = {
@@ -20,7 +33,8 @@ async function updateSignup() {
                 .then(response => response.json())
                 .then(data => {
                     console.log("Datas are", data);
-                    // alert("data added successfully");
+                    //  alert("data added successfully");
+                    setCookie("UserCookie",data.data.accessToken);
 
                 })
 
@@ -94,3 +108,4 @@ async function validateEmail(){
     return false;
 
 }
+

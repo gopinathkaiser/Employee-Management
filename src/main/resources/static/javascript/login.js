@@ -14,19 +14,21 @@ async function checkLoginDetails() {
         await fetch(`http://localhost:8080/Auth/validate`,{
             method : 'POST',
             headers : {
-                'Content-type' : 'application/json'
+                'Content-type' : 'application/json',
+
             },
             body : JSON.stringify(formData)
         })
-            .then(response => response.text())
+            .then(response => response.json())
             .then(data => {
 
-                console.log(data);
-                if(data == "success"){
-                    
-                    location.href = "../templates/index.html";
+                console.log(data.data.accessToken);
+                if(data.data!='Password wrong'){
+                    setCookie("UserCookie",data.data.accessToken);
+                     location.href = "../templates/index.html";
+
                 }else{
-                    // alert("password wrong");
+                    alert("password wrong");
                     swal("Alert", "Password is wrong", "error");
                 }
 
@@ -61,4 +63,13 @@ async function checkEmailExists() {
     return bool;
 }
 
+function setCookie(name, token) {
+    let cookie = name + "=" + encodeURIComponent(token);
 
+    let expiration = new Date();
+    expiration.setTime(expiration.getTime() + 30 * 60 * 1000); 
+
+    cookie += "; expires=" + expiration.toUTCString();
+
+    document.cookie = cookie;
+}

@@ -6,6 +6,8 @@ import com.example.UserManagement.Model.UserSignup;
 import com.example.UserManagement.Repository.UserSignupRepo;
 import com.example.UserManagement.Util.JwtUtils;
 import com.example.UserManagement.common.ApiResponse;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class SignupService {
     @Autowired
     private JwtUtils jwtUtils;
 
-    public ApiResponse addUser(SignUpRequestDTO signUpRequestDTO){
+    public ApiResponse addUser(SignUpRequestDTO signUpRequestDTO,HttpServletResponse response){
         ApiResponse apiResponse = new ApiResponse();
         UserSignup userSignup = new UserSignup();
         userSignup.setEmail(signUpRequestDTO.getEmail());
@@ -36,6 +38,7 @@ public class SignupService {
         Map<String,Object> data = new HashMap<>();
         data.put("accessToken", token);
         apiResponse.setData(data);
+
         return apiResponse;
     }
 
@@ -62,6 +65,7 @@ public class SignupService {
                 Map<String,Object> data = new HashMap<>();
                 data.put("accessToken", token);
                 apiResponse.setData(data);
+                System.out.println(apiResponse);
             } else {
                 apiResponse.setData("Password wrong");
             }

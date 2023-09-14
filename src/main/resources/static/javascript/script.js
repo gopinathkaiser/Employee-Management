@@ -4,12 +4,16 @@ let page = 0;
 let max = 0;
 
 async function validateEmail() {
-
+    let cookie = getCookie("UserCookie");
     let email = document.getElementById("email");
     let emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     let checkForAlert = 1;
     if (emailRegex.test(email.value)) {
-        await fetch(`http://localhost:8080/user/verify/${email.value}`)
+        await fetch(`http://localhost:8080/user/verify/${email.value}`,{
+            headers: new Headers({
+                'Authorization': `${cookie}`
+            }),
+        })
             .then(response => response.json())
             .then(data => {
                 if (data)
@@ -132,14 +136,15 @@ async function checkAllValidation() {
         },
     };
     console.log(formData);
-
+    let cookie = getCookie("UserCookie");
     if (document.getElementById("email").disabled == true) {
 
         if (validateFirstName() && validateLastName() && validateMobileNum && validateDob()) {
             fetch('http://localhost:8080/user', {
                 method: 'PUT',
                 headers: {
-                    'Content-type': 'application/json'
+                    'Content-type': 'application/json',
+                    'Authorization' : cookie
                 },
                 body: JSON.stringify(formData)
             })
@@ -158,7 +163,8 @@ async function checkAllValidation() {
             fetch('http://localhost:8080/user', {
                 method: 'POST',
                 headers: {
-                    'Content-type': 'application/json'
+                    'Content-type': 'application/json',
+                    'Authorization' : cookie
                 },
                 body: JSON.stringify(formData)
             })
@@ -200,17 +206,23 @@ async function deleteData(email) {
         icon: "warning",
         buttons: true,
         dangerMode: true,
-      })
-      .then((willDelete) => {
-        if (!willDelete) {
-          booleanType = true;
-        } 
-      });
+    })
+        .then((willDelete) => {
+            if (!willDelete) {
+                booleanType = true;
+            }
+        });
 
-      if(booleanType) return false;
+    let cookie = getCookie("UserCookie");
+
+    if (booleanType) return false;
 
     await fetch(`http://localhost:8080/user/${email}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: new Headers({
+            'Authorization': `${cookie}`
+        })
+
     })
         .then(response => response.json())
         .then(data => {
@@ -224,10 +236,15 @@ async function deleteData(email) {
 }
 
 function getEditData() {
+    let cookie = getCookie("UserCookie");
     let sessionEmailData = sessionStorage.getItem("email");
     if (sessionEmailData) {
 
-        fetch(`http://localhost:8080/user/${sessionEmailData}`)
+        fetch(`http://localhost:8080/user/${sessionEmailData}`,{
+            headers: new Headers({
+                'Authorization': `${cookie}`
+            }),
+        })
             .then(response => response.json())
             .then(data => {
                 console.log("Data fro edit", data);
@@ -321,15 +338,47 @@ function displayOnForm(userData) {
     }
 })();
 
+function getCookie(name) {
+    let cookies = document.cookie.slice(11);
+    // alert(cookies);
+    for(let i=0;i<cookies.length;i++){
+        let cookie = cookies[i].trim();
+        if(cookie.startsWith(name + "=")){
+            return cookie.substring(name.length+1 ,cookie.length);
+        }
+    }
+
+    return cookies;
+}
 
 async function displayUserData() {
+    let cookie = getCookie("UserCookie");
+    console.log("cokiee", typeof cookie);
+    // alert(cookie);
+    if(cookie == ""){
+        // swal("Login to continue");
+        await swal({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Login to continue',
+          })
 
-    await fetch(`http://localhost:8080/user/countData`)
+        location.href = "login.html";
+    }
+    console.log("1sr");
+    // alert(cookie);
+    await fetch(`http://localhost:8080/user/countData`, {
+      
+        headers: new Headers({
+            'Authorization': `${cookie}`
+        }), 
+    })
         .then(response => response.json())
         .then(responseCount => {
             console.log(responseCount + "total data");
             max = Math.ceil(responseCount / 10);
             console.log(max);
+
         })
         .catch(err => {
             console.log(err);
@@ -348,13 +397,22 @@ async function displayUserData() {
         "                    <th>Action</th>\n" +
 
         "                </tr>";
+        await diplayData(page, cookie);
 
-    await diplayData(page);
 
 }
 
-async function diplayData(page) {
-    await fetch(`http://localhost:8080/user/${page}/${10}`)
+async function diplayData(page, cookie) {
+    console.log("2sr");
+
+    // alert(cookie + "cookieeeeeeee");
+    console.log(cookie + "cookiee");
+    // await fetch(`http://localhost:8080/user/${page}/${10}`), {
+    await fetch(`http://localhost:8080/user/${page}/${10}`, {
+        headers: new Headers({
+            'Authorization': `${cookie}`
+        }), 
+    })
 
         .then((response) => response.json())
         .then(responseData => {
@@ -369,7 +427,7 @@ async function diplayData(page) {
                     let tableData = document.createElement("td");
                     if (key[i] == "dob") {
                         const parseArray = reponseDataItem[key[i]].split("-");
-
+                        console.log(parseArray);
                         parsedDate = parseArray[2] + "-" + parseArray[1] + "-" + parseArray[0];
                     } else {
 
@@ -393,17 +451,17 @@ async function diplayData(page) {
                 }
                 tableData.appendChild(tableButtonDelete);
                 let tableButtonIcon = document.createElement("button");
-                tableButtonIcon.setAttribute("title",reponseDataItem.role.roleName);
+                tableButtonIcon.setAttribute("title", reponseDataItem.role.roleName);
                 tableButtonIcon.textContent = "i";
                 tableButtonIcon.onclick = function () {
-                    displayIcon(reponseDataItem.role.roleName,reponseDataItem.createDate,reponseDataItem.modifyDate);
+                    displayIcon(reponseDataItem.role.roleName, reponseDataItem.createDate, reponseDataItem.modifyDate);
                 }
                 tableData.appendChild(tableButtonIcon);
                 tableRow.appendChild(tableData);
                 tableBody.appendChild(tableRow);
 
                 document.getElementById("table").appendChild(tableBody);
-                
+
 
             })
 
@@ -414,7 +472,7 @@ async function diplayData(page) {
 }
 
 function nextPage() {
-    if ((page +1) < max) {
+    if ((page + 1) < max) {
         page++;
 
         document.getElementById("currentPage").textContent = page;
@@ -441,27 +499,51 @@ function clearData() {
 }
 
 
-function displayIcon(role,createdAt,modifiedAt){
-    swal("Role :  " + role + "\n" + "Created at :  " + new Date(createdAt).toString().slice(0,25) + "\n" + "Modified at :  " + new Date(modifiedAt).toString().slice(0,25));
+function displayIcon(role, createdAt, modifiedAt) {
+    swal("Role :  " + role + "\n" + "Created at :  " + new Date(createdAt).toString().slice(0, 25) + "\n" + "Modified at :   " + new Date(modifiedAt).toString().slice(0, 25));
 }
 
 
-async function checkLogout(){
+async function checkLogout() {
     let booleanType = false;
-     await swal({
+    await swal({
         title: "Are you sure?",
         icon: "warning",
         buttons: true,
         dangerMode: true,
-      })
-      .then((willLogout) => {
-        if (!willLogout) {
-          booleanType = true;
-        } 
-      });
+    })
+        .then((willLogout) => {
+            if (!willLogout) {
+                booleanType = true;
+            }
+        });
 
-      console.log(booleanType);
-      if(booleanType) return true;
+    console.log(booleanType);
+    if (booleanType) return true;
 
-      return false;
+    return false;
+}
+
+
+function setCookie(name, token) {
+    let cookie = name + "=" + encodeURIComponent(token);
+
+    let expiration = new Date();
+    expiration.setTime(expiration.getTime() + 30 * 60 * 1000); 
+
+    cookie += "; expires=" + expiration.toUTCString();
+
+    document.cookie = cookie;
+}
+
+function Logout(){
+    
+   let booleanType =   confirm("Are u sure");
+   if(booleanType){
+    setCookie("UserCookie","");
+    return booleanType;
+   }
+
+   return false;
+    
 }

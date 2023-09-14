@@ -1,5 +1,6 @@
 package com.example.UserManagement.common;
 
+import com.example.UserManagement.Model.UserSignup;
 import org.springframework.http.HttpStatus;
 
 public class ApiResponse {
@@ -23,7 +24,7 @@ public class ApiResponse {
     }
 
     public Object getData() {
-        return data;
+        return  data;
     }
 
     public void setData(Object data) {
