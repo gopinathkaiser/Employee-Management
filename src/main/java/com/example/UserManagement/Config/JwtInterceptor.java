@@ -17,9 +17,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        System.out.println("PREHANDLE");
-//        System.out.println(request.getRequestURI());
-//        System.out.println(!request.getRequestURI().contains("Auth"));
+
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
@@ -30,11 +28,9 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
 
         String auth = request.getHeader("Authorization");
-        System.out.println(auth);
-       System.out.println(request.getRequestURI());
-//        System.out.println();
+
         if(!(request.getRequestURI().contains("Auth"))){
-            System.out.println("heloooo");
+
             jwtUtils.verify(auth);
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);

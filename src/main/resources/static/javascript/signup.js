@@ -42,7 +42,7 @@ async function updateSignup() {
                     console.log("error", error);
                 })
 
-            location = "index.html";
+            location = "SignupVerify.html";
         
     }
 

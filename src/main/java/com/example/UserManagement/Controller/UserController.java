@@ -2,6 +2,7 @@ package com.example.UserManagement.Controller;
 
 import com.example.UserManagement.DTO.UserAndRoleDTO;
 import com.example.UserManagement.Model.Role;
+import com.example.UserManagement.Model.UserSignup;
 import com.example.UserManagement.Model.Users;
 import com.example.UserManagement.Service.UserService;
 
@@ -9,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.*;
 
 @CrossOrigin
@@ -24,7 +27,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<String> insertData(@RequestBody UserAndRoleDTO userAndRoleDTO){
-
+//        System.out.println(principal.getName());
         userService.addUser(userAndRoleDTO);
         return ResponseEntity.ok("saved");
 
@@ -62,7 +65,7 @@ public class UserController {
 
     @GetMapping("/countData")
     public long countData(){
-
+//        System.out.println(((UserSignup)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName());
         return userService.findCount();
     }
 }

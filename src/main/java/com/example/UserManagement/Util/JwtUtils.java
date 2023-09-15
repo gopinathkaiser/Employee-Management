@@ -7,7 +7,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 
-import java.security.Signature;
 import java.util.Date;
 
 @Component
@@ -33,12 +32,12 @@ public class JwtUtils {
         return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512,secret).compact();
     }
 
-    public void verify(String authorization) throws Exception {
+    public AccessDeniedException verify(String authorization) throws Exception {
         try{
-
             Jwts.parser().setSigningKey(secret).parseClaimsJws(authorization);
         }catch (Exception e){
-            throw new AccessDeniedException("Unauthorized");
+            return  new AccessDeniedException("Unauthorized");
         }
+        return null;
     }
 }

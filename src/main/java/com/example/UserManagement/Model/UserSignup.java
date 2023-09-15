@@ -58,4 +58,15 @@ public class UserSignup {
     @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     private Timestamp modifyDate;
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    @Column(name="verificationCode",updatable = false)
+    private String verificationCode;
 }

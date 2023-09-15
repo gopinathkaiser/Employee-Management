@@ -7,13 +7,16 @@ import com.example.UserManagement.Model.UserSignup;
 import com.example.UserManagement.Service.SignupService;
 import com.example.UserManagement.Util.JwtUtils;
 import com.example.UserManagement.common.ApiResponse;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -30,13 +33,17 @@ public class SignupController {
     private JwtUtils jwtUtils;
 
     @PostMapping("/")
-    public ResponseEntity<ApiResponse> addUser(@RequestBody SignUpRequestDTO signUpRequestDTO,HttpServletResponse response){
+    public ResponseEntity<ApiResponse> addUser(@RequestBody SignUpRequestDTO signUpRequestDTO, HttpServletRequest request) throws MessagingException, InvocationTargetException {
         String password = signUpRequestDTO.getPassword();
         String saltedPassword = BCrypt.gensalt(12);
         String hashedPassword = BCrypt.hashpw(password,saltedPassword);
         signUpRequestDTO.setPassword(hashedPassword);
+        String siteURL = getSiteURL(request);
+
 //        UserSignup user = signupService.addUser(signupService);
-        ApiResponse apiResponse = signupService.addUser(signUpRequestDTO,response);
+        ApiResponse apiResponse = signupService.addUser(signUpRequestDTO,siteURL);
+
+
 
         return ResponseEntity
                 .status(apiResponse.getStatus())
@@ -70,5 +77,9 @@ public class SignupController {
 
     }
 
+    public String getSiteURL(HttpServletRequest request) {
+        String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
+    }
 
 }

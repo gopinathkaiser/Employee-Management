@@ -1,7 +1,9 @@
 package com.example.UserManagement.Model;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -42,6 +44,30 @@ public class Users {
     @LastModifiedDate
     @Column
     private Timestamp modifyDate;
+
+   @CreatedBy
+   @Column
+   private String created_by;
+
+    public String getCreated_by() {
+        return created_by;
+    }
+
+    public void setCreated_by(String created_by) {
+        this.created_by = created_by;
+    }
+
+    public String getModified_by() {
+        return modified_by;
+    }
+
+    public void setModified_by(String modified_by) {
+        this.modified_by = modified_by;
+    }
+
+    @LastModifiedBy
+    @Column
+    private String modified_by;
 
     @ManyToOne(cascade =  CascadeType.DETACH)
     @JoinColumn(name = "fk_role_id")
