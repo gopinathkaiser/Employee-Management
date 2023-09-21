@@ -21,33 +21,33 @@ public class Users {
     private String email;
 
     @Column
-   private String fname;
+    private String fname;
 
-   @Column
-   private String lname;
+    @Column
+    private String lname;
 
-   @Column
-   private Long mobile;
+    @Column
+    private Long mobile;
 
-   @Column
-   private LocalDate dob;
+    @Column
+    private LocalDate dob;
 
-   @Column
-   private String address;
+    @Column
+    private String address;
 
-   @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
-   @Column
-   private Timestamp createDate;
+    @Column
+    private Timestamp createDate;
 
-   @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.TIMESTAMP)
     @LastModifiedDate
     @Column
     private Timestamp modifyDate;
 
-   @CreatedBy
-   @Column
-   private String created_by;
+    @CreatedBy
+    @Column
+    private String created_by;
 
     public String getCreated_by() {
         return created_by;
@@ -69,7 +69,7 @@ public class Users {
     @Column
     private String modified_by;
 
-    @ManyToOne(cascade =  CascadeType.DETACH)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "fk_role_id")
     private Role role;
 
@@ -183,7 +183,6 @@ public class Users {
     public void setAddress(String address) {
         this.address = address;
     }
-
 
 
 }

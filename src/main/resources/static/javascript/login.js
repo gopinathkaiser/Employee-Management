@@ -5,31 +5,39 @@ async function checkLoginDetails() {
     const pass = document.getElementById("password").value;
 
     const formData = {
-        "email" : document.getElementById("login-email").value,
-        "password" : document.getElementById("password").value
+        "email": document.getElementById("login-email").value,
+        "password": document.getElementById("password").value
     };
 
 
     if (await checkEmailExists()) {
-        await fetch(`http://localhost:8080/Auth/validate`,{
-            method : 'POST',
-            headers : {
-                'Content-type' : 'application/json',
+        await fetch(`http://localhost:8080/Auth/validate`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
 
             },
-            body : JSON.stringify(formData)
+            
+            body: JSON.stringify(formData)
         })
             .then(response => response.json())
             .then(data => {
 
                 console.log(data.data.accessToken);
-                if(data.data!='Password wrong'){
-                    setCookie("UserCookie",data.data.accessToken);
-                     location.href = "../templates/index.html";
+                if (data.data != 'Password wrong') {
+                    if (data.data != 'Verify the email') {
+                        // alert("password wrong");
+                        setCookie("UserCookie", data.data.accessToken);
+                        location.href = "../templates/index.html";
+                    } else {
+                        swal("Alert", "Verify the Email", "error");
+                        
+                    }
 
-                }else{
-                    // alert("password wrong");
+                } else if(data.data != 'Verify the email') {
                     swal("Alert", "Password is wrong", "error");
+                }else{
+                    swal("Alert", "Verify the Email", "error");
                 }
 
             })
@@ -39,7 +47,7 @@ async function checkLoginDetails() {
 
     } else {
         //  alert("Email not registered kindly signup");
-         swal("Alert", "Email not registered kindly signup", "error");
+        swal("Alert", "Email not registered kindly signup", "error");
     }
 }
 
@@ -67,7 +75,7 @@ function setCookie(name, token) {
     let cookie = name + "=" + encodeURIComponent(token);
 
     let expiration = new Date();
-    expiration.setTime(expiration.getTime() + 30 * 60 * 1000); 
+    expiration.setTime(expiration.getTime() + 30 * 60 * 1000);
 
     cookie += "; expires=" + expiration.toUTCString();
 

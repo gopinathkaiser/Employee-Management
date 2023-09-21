@@ -7,24 +7,20 @@ import com.example.UserManagement.Repository.UserSignupRepo;
 import com.example.UserManagement.Util.JwtUtils;
 import com.example.UserManagement.common.ApiResponse;
 import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
+
 public class SignupService {
 
     @Autowired
@@ -36,33 +32,39 @@ public class SignupService {
     @Autowired
     private JwtUtils jwtUtils;
 
-    public ApiResponse addUser(SignUpRequestDTO signUpRequestDTO,String siteURL) throws MessagingException, InvocationTargetException {
+    @Autowired
+    private EmailSender emailSender;
+
+
+    public ApiResponse addUser(SignUpRequestDTO signUpRequestDTO, String siteURL) throws MessagingException, InvocationTargetException {
         ApiResponse apiResponse = new ApiResponse();
-        UserSignup userSignup = new UserSignup();
-        userSignup.setEmail(signUpRequestDTO.getEmail());
-        userSignup.setName(signUpRequestDTO.getName());
-        userSignup.setPassword(signUpRequestDTO.getPassword());
 
-        String randomCode = RandomStringUtils.randomAlphanumeric(64);
+
+        System.out.println("print 3" + LocalTime.now());
+        UserSignup userSignup = UserSignup.builder()
+                .email(signUpRequestDTO.getEmail())
+                .name(signUpRequestDTO.getName())
+                .password(signUpRequestDTO.getPassword())
+                .build();
+
+        System.out.println("print 4" + LocalTime.now());
+        String randomCode = RandomStringUtils.randomNumeric(6);
         userSignup.setVerificationCode(randomCode);
-
         userSignup = userSignupRepo.save(userSignup);
 
+        System.out.println("print 5" + LocalTime.now());
+        emailSender.sendVerificationCode(userSignup, siteURL);
+        apiResponse.setData(userSignup);
 
-        sendVerificationCode(userSignup,siteURL);
-         apiResponse.setData(userSignup);
-        String token = jwtUtils.generateJwt(userSignup);
-        Map<String,Object> data = new HashMap<>();
-        data.put("accessToken", token);
-        apiResponse.setData(data);
-
+        System.out.println("print 6" + LocalTime.now());
         return apiResponse;
     }
 
 
-    public boolean checkUser(String email){
-        if(userSignupRepo.existsById(email))    return true;
-            return false;
+    public boolean checkUser(String email) {
+        if (userSignupRepo.existsById(email)) return true;
+
+        return false;
 
     }
 
@@ -77,49 +79,77 @@ public class SignupService {
         Optional<UserSignup> response;
         try {
             response = userSignupRepo.findById(loginRequestDTO.getEmail());
-            if (BCrypt.checkpw(loginRequestDTO.getPassword(), response.get().getPassword())) {
-                String token = jwtUtils.generateJwt(response.get());
-                Map<String,Object> data = new HashMap<>();
-                data.put("accessToken", token);
-                apiResponse.setData(data);
+            System.out.println(response.get().isVerificationStatus());
+            if ((response.get().isVerificationStatus())) {
+                if (BCrypt.checkpw(loginRequestDTO.getPassword(), response.get().getPassword())) {
+                    String token = jwtUtils.generateJwt(response.get());
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("accessToken", token);
+                    apiResponse.setData(data);
+                } else {
+                    apiResponse.setData("Password wrong");
+                }
             } else {
-                apiResponse.setData("Password wrong");
+                apiResponse.setData("Verify the email");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             apiResponse.setData("User login failed");
         }
 
         return apiResponse;
     }
 
-    public void sendVerificationCode(UserSignup userSignup, String siteURL) {
-        try {
-            String toAddress = userSignup.getEmail();
-            String fromAddress = "gopinathkaiser@gmail.com";
-            String senderName = "Gopinath";
-            String subject = "Please verify your registration";
-            String mailContent = "<p>Dear " + userSignup.getName() + ",</p>";
-            mailContent += "<p>Please click below link for verification:</p>";
+//    @Async
+//    public void sendVerificationCode(UserSignup userSignup, String siteURL) {
+//        try {
+//            System.out.println("print 11 " + LocalTime.now());
+//            String toAddress = userSignup.getEmail();
+//            String fromAddress = "gopinathkaiser@gmail.com";
+//            String senderName = "Gopinath";
+//            String subject = "Please verify your registration";
+//            String mailContent = "<p>Dear " + userSignup.getName() + ",</p>";
+//            mailContent += "<p>Please click below link for verification:</p>";
+//            System.out.println("print 12 " + LocalTime.now());
+//            String verifyEmail = siteURL + "/Auth/verify?email=" + userSignup.getEmail() + "&code=" + userSignup.getVerificationCode();
+//            System.out.println("print 13 " + LocalTime.now());
+//            mailContent += "<h3><a href=\"" + verifyEmail + "\">VERIFY</a></h3>";
+//            mailContent += "<p>Thank you<br>Gopinath</p>";
+//            System.out.println("print 14 " + LocalTime.now());
+//            MimeMessage message = javaMailSender.createMimeMessage();
+//            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+//            System.out.println("print 15 " + LocalTime.now());
+//            helper.setFrom(fromAddress, senderName);
+//            helper.setTo(toAddress);
+//            helper.setSubject(subject);
+//            helper.setText(mailContent, true);
+//            System.out.println("print 16 " + LocalTime.now());
+//            javaMailSender.send(message);
+//
+////            new Thread(() -> {
+////                javaMailSender.send(message);
+////            }).start();
+//
+//            System.out.println("print 17 " + LocalTime.now());
+//            System.out.println("Email sent successfully to: " + toAddress);
+//        } catch(Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
-            String verifyEmail = siteURL + "/verify?code=" + userSignup.getVerificationCode();
+    public ApiResponse verifyDetails(String email, String code) {
+        ApiResponse apiResponse = new ApiResponse();
+        Optional<UserSignup> optionalUserSignup = userSignupRepo.findById(email);
+//        System.out.println(optionalUserSignup);
+        UserSignup userSignup = optionalUserSignup.get();
+//        System.out.println(userSignup.getVerificationCode() + " &&& " + code);
+//        System.out.println("User signup" + userSignup);
 
-            mailContent += "<h3><a href=\"" + verifyEmail + "\">VERIFY</a></h3>";
-            mailContent += "<p>Thank you<br>The shopme Team</p>";
-
-            MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true); // Enable HTML content
-
-            helper.setFrom(fromAddress, senderName);
-            helper.setTo(toAddress);
-            helper.setSubject(subject);
-            helper.setText(mailContent, true); // Enable HTML content
-
-            javaMailSender.send(message);
-
-            System.out.println("Email sent successfully to: " + toAddress);
-        } catch(Exception e){
-            e.printStackTrace();
-
+        if (userSignup.getVerificationCode().equals(code)) {
+            apiResponse.setData(userSignup);
+//            System.out.println(apiResponse.getData() + " API RESPONSe");
+            return apiResponse;
         }
+        apiResponse.setData("Failure");
+        return apiResponse;
     }
 }

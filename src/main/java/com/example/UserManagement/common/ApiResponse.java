@@ -1,13 +1,15 @@
 package com.example.UserManagement.common;
 
-import com.example.UserManagement.Model.UserSignup;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.HttpStatus;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse {
 
     private Integer status;
     private Object data;
     private Object error;
+
 
     public ApiResponse() {
         this.status = HttpStatus.OK.value();
@@ -24,7 +26,7 @@ public class ApiResponse {
     }
 
     public Object getData() {
-        return  data;
+        return data;
     }
 
     public void setData(Object data) {

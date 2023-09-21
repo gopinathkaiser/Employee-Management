@@ -1,10 +1,10 @@
 package com.example.UserManagement.Util;
 
 import com.example.UserManagement.Model.UserSignup;
-import com.example.UserManagement.common.AccessDeniedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -14,8 +14,9 @@ public class JwtUtils {
     Date issuedDate = new Date();
     private static String secret = "This_is_secret";
 
-    public static long expiry= 60*60;
-    public String generateJwt(UserSignup userSignup){
+    public static long expiry = 60 * 60;
+
+    public String generateJwt(UserSignup userSignup) {
 
         long milli = System.currentTimeMillis();
 
@@ -26,17 +27,22 @@ public class JwtUtils {
 
         Claims claims = Jwts.claims().setIssuer(userSignup.getEmail()).setIssuedAt(issuedDate).setExpiration(expiryDate);
 
-        claims.put("name",userSignup.getName());
+        claims.put("name", userSignup.getName());
 
         //generate jwt using claims
-        return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512,secret).compact();
+        return Jwts.builder().setClaims(claims).signWith(SignatureAlgorithm.HS512, secret).compact();
     }
 
     public AccessDeniedException verify(String authorization) throws Exception {
-        try{
+        try {
+            if (authorization == null) {
+                throw new AccessDeniedException("Unauthorized");
+            }
+
             Jwts.parser().setSigningKey(secret).parseClaimsJws(authorization);
-        }catch (Exception e){
-            return  new AccessDeniedException("Unauthorized");
+            ;
+        } catch (Exception e) {
+            throw new AccessDeniedException("Unauthorized");
         }
         return null;
     }

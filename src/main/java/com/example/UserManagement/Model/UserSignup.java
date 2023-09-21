@@ -1,48 +1,24 @@
 package com.example.UserManagement.Model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @EntityListeners(AuditingEntityListener.class)
-@Entity
+@Entity(name = "UserSignup")
 public class UserSignup {
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String toString() {
-        return "UserSignup{" +
-                "email='" + email + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     @Id
     private String email;
@@ -59,14 +35,12 @@ public class UserSignup {
     @LastModifiedDate
     private Timestamp modifyDate;
 
-    public String getVerificationCode() {
-        return verificationCode;
-    }
 
-    public void setVerificationCode(String verificationCode) {
-        this.verificationCode = verificationCode;
-    }
-
-    @Column(name="verificationCode",updatable = false)
+    @Column(name = "verificationCode", updatable = false)
     private String verificationCode;
+
+    @Column(nullable = false)
+    private boolean verificationStatus = false;
+
+
 }

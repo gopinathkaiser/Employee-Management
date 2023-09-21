@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 @CrossOrigin
 @Component
@@ -28,10 +27,10 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
 
         String auth = request.getHeader("Authorization");
-
-        if(!(request.getRequestURI().contains("Auth"))){
-
+//        System.out.println("AUthenticate 1 " + auth);
+        if (!(request.getRequestURI().contains("Auth"))) {
             jwtUtils.verify(auth);
+//            jwtUtils.verify(auth);
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity handleException(Exception e){
+    public ResponseEntity handleException(Exception e) {
 
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setError("Oops..Something went wrong!");
@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity handleAccessDEniedException(AccessDeniedException e){
+    public ResponseEntity handleAccessDEniedException(AccessDeniedException e) {
 
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
