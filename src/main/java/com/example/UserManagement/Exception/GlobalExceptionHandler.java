@@ -1,5 +1,7 @@
-package com.example.UserManagement.common;
+package com.example.UserManagement.Exception;
 
+import com.example.UserManagement.Exception.AccessDeniedException;
+import com.example.UserManagement.common.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,11 +21,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity handleAccessDEniedException(AccessDeniedException e) {
+    public ResponseEntity handleAccessDeniedException(AccessDeniedException e) {
 
         ApiResponse apiResponse = new ApiResponse();
         apiResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
-
+        apiResponse.setError("Unauthorized");
 
         return ResponseEntity.status(apiResponse.getStatus()).body(apiResponse);
     }

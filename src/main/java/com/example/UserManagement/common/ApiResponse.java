@@ -1,7 +1,12 @@
 package com.example.UserManagement.common;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
+
+@Data
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiResponse {
@@ -17,29 +22,29 @@ public class ApiResponse {
         this.error = error;
     }
 
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Object getData() {
-        return data;
-    }
-
-    public void setData(Object data) {
-        this.data = data;
-    }
-
-    public Object getError() {
-        return error;
-    }
-
-    public void setError(Object error) {
-        this.error = error;
-    }
+//    public Integer getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(Integer status) {
+//        this.status = status;
+//    }
+//
+//    public Object getData() {
+//        return data;
+//    }
+//
+//    public void setData(Object data) {
+//        this.data = data;
+//    }
+//
+//    public Object getError() {
+//        return error;
+//    }
+//
+//    public void setError(Object error) {
+//        this.error = error;
+//    }
 
     public ApiResponse(Integer status, Object data, Object error) {
         this.status = status;

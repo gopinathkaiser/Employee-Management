@@ -1,4 +1,4 @@
-package com.example.UserManagement.common;
+package com.example.UserManagement.Exception;
 
 public class AccessDeniedException extends RuntimeException {
 

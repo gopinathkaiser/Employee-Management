@@ -1,4 +1,4 @@
-package com.example.UserManagement.common;
+package com.example.UserManagement.Config;
 
 import com.example.UserManagement.Config.JwtInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,6 @@ public class CustomWebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor);
-//        WebMvcConfigurer.super.addInterceptors(registry);
+
     }
 }

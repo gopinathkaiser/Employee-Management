@@ -11,12 +11,14 @@ import org.springframework.web.servlet.HandlerInterceptor;
 @CrossOrigin
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
+
     @Autowired
     private JwtUtils jwtUtils;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        //for cors
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
@@ -27,10 +29,9 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
 
         String auth = request.getHeader("Authorization");
-//        System.out.println("AUthenticate 1 " + auth);
+
         if (!(request.getRequestURI().contains("Auth"))) {
             jwtUtils.verify(auth);
-//            jwtUtils.verify(auth);
         }
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }

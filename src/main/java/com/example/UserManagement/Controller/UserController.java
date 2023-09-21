@@ -19,24 +19,22 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
     @PostMapping
     public ResponseEntity<String> insertData(@RequestBody UserAndRoleDTO userAndRoleDTO) {
-//        System.out.println(principal.getName());
+
         userService.addUser(userAndRoleDTO);
         return ResponseEntity.ok("saved");
-
     }
 
     @DeleteMapping("/{email}")
     public String delete(@PathVariable String email) {
-        return userService.deleteUser(email);
 
+        return userService.deleteUser(email);
     }
 
     @GetMapping("/{email}")
     public ResponseEntity<Users> displayDataFetch(@PathVariable String email) {
-//        System.out.println(userService.displayDataFetch(email));
+
         return userService.displayDataFetch(email);
     }
 
@@ -45,7 +43,6 @@ public class UserController {
         userService.insertAfterDataEdited(userAndRoleDTO);
         return ResponseEntity.ok("Edited successfully");
     }
-
 
     @GetMapping("/verify/{email}")
     public boolean checkEmail(@PathVariable String email) {
@@ -60,7 +57,6 @@ public class UserController {
 
     @GetMapping("/countData")
     public long countData() {
-//        System.out.println(((UserSignup)SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getName());
         return userService.findCount();
     }
 

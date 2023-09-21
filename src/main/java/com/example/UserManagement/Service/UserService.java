@@ -7,6 +7,7 @@ import com.example.UserManagement.Model.Role;
 import com.example.UserManagement.Model.Users;
 import com.example.UserManagement.Repository.RoleRepository;
 import com.example.UserManagement.Repository.UserRepository;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-//@EnableJpaAuditing
 @Service
 public class UserService {
 
@@ -27,14 +27,13 @@ public class UserService {
 
     public void addUser(UserAndRoleDTO userAndRoleDTO) {
         Users users = userAndRoleDTO.getUsers();
-//            Timestamp ts = new Timestamp(new Date().getTime());
-//            users.setModifyDate(ts);
-//            users.setCreateDate(ts);
         Role role = userAndRoleDTO.getUsers().getRole();
         Role role1 = roleRepository.findByRoleName(role.getRoleName());
+
         if (role1 == null) {
             throw new RoleNotFoundException("Role not found");
         }
+
         users.setRole(role1);
         userRepository.save(users);
     }
@@ -55,23 +54,24 @@ public class UserService {
     }
 
     public void insertAfterDataEdited(UserAndRoleDTO userAndRoleDTO) {
-        Optional<Users> users = userRepository.findById(userAndRoleDTO.getUsers().getEmail());
-        Users userData = users.get();
 
-        userData.setFname(userAndRoleDTO.getUsers().getFname());
-        userData.setLname(userAndRoleDTO.getUsers().getLname());
-        userData.setMobile(userAndRoleDTO.getUsers().getMobile());
-        userData.setDob(userAndRoleDTO.getUsers().getDob());
-        userData.setAddress(userAndRoleDTO.getUsers().getAddress());
+        Users userData = Users.builder()
+                        .email(userAndRoleDTO.getUsers().getEmail())
+                        .fname(userAndRoleDTO.getUsers().getFname())
+                        .lname(userAndRoleDTO.getUsers().getLname())
+                        .mobile(userAndRoleDTO.getUsers().getMobile())
+                        .dob(userAndRoleDTO.getUsers().getDob())
+                        .address(userAndRoleDTO.getUsers().getAddress())
+                        .build();
+
         Role role = userAndRoleDTO.getUsers().getRole();
-        Role role1 = roleRepository.findByRoleName(role.getRoleName());
-        if (role1 == null) {
+        Role roleFromDB = roleRepository.findByRoleName(role.getRoleName());
+        if (roleFromDB == null) {
             throw new RoleNotFoundException("Role not found");
         }
-        userData.setRole(role1);
 
+        userData.setRole(roleFromDB);
         userRepository.save(userData);
-
     }
 
     public boolean checkEmail(String email) {
@@ -79,7 +79,6 @@ public class UserService {
     }
 
     public long findCount() {
-
         return userRepository.count();
     }
 
